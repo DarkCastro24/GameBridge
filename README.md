@@ -1,4 +1,4 @@
-# GameBridge – Tienda en Línea (Legacy PHP)
+# GameBridge – Tienda en linea de Hardware
 
 GameBridge es una tienda en línea funcional desarrollada en PHP puro, orientada a la gestión y venta de productos mediante un sitio público y un panel administrativo (dashboard).  
 Este proyecto es un sistema operativo para entornos locales de desarrollo.
@@ -134,7 +134,6 @@ http://localhost/GameBridge_Legacy/views/public/
 
 - El sistema controla que solo exista un usuario Root inicial.
 - La seguridad de contraseñas utiliza hashing mediante `password_hash` y validación con `password_verify`.
-- El proyecto mantiene una estructura legacy, adecuada para migraciones, refactorización o auditorías.
-
+  
 ---
 
