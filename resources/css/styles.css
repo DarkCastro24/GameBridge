@@ -1,0 +1,212 @@
+.h5 {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    margin-top: 50px;
+  }
+
+  input:focus+label {
+    color: #0A1733 !important;
+  }
+
+  input:focus {
+    border-bottom: 1px solid #0A1733 !important;
+    box-shadow: 0 1px 0 0 #0A1733 !important
+  }
+
+  .input-field .prefix.active {
+    color:  #0A1733;
+  }
+
+  .button {
+
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    background-color: #0A1733;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 16px;
+    padding: 12px;
+    width: 200px;
+    cursor: pointer;
+    margin: 5px;
+
+  }
+
+  .button:active {
+
+    background-color: #0A1733;
+  }
+
+  .updateButton {
+
+    background-color: yellow;
+    align-items: center;
+    color: black;
+    text-transform: capitalize;
+    font-size: 10px;
+    width: 50px;
+
+  }
+
+  .updateButton:hover {
+
+    background-color: yellow;
+    align-items: center;
+    color: black;
+
+
+  }
+
+
+  .deleteButton {
+
+    background-color: red;
+    align-items: center;
+    color: white;
+    text-transform: capitalize;
+    font-size: 10px;
+    width: 50px;
+
+
+  }
+
+  .deleteButton:hover {
+
+    background-color: red;
+    align-items: center;
+    color: white;
+
+
+
+  }
+
+  .addressButton {
+
+    background-color: teal;
+    align-items: center;
+    color: white;
+    text-transform: capitalize;
+    font-size: 10px;
+    width: 50px;
+
+
+  }
+
+  .addressButton:hover {
+
+    background-color: teal;
+    align-items: center;
+    color: white;
+
+
+
+  }
+
+  .cancelButton {
+
+    font-size: 15px;
+    text-transform: capitalize;
+    background-color: #D23739;
+    align-items: center;
+    width: 150px;
+
+  }
+
+  .cancelButton:hover {
+
+    background-color: red;
+  }
+
+  .addButton {
+
+    font-size: 15px;
+    text-transform: capitalize;
+    background-color: #5CB85C;
+    align-items: center;
+    width: 150px;
+
+  }
+
+  .addButton:hover {
+
+    background-color: green;
+  }
+
+  .colconfig {
+
+    text-align: center;
+
+  }
+
+  .updateButton2 {
+
+    background-color: #F7D000;
+    align-items: center;
+    color: black;
+    text-transform: capitalize;
+    font-size: 15px;
+    width: 150px;
+
+  }
+
+  .updateButton2:hover {
+
+    background-color: yellow;
+  }
+
+  .materialize-textarea:focus+label {
+
+    color: #146799 !important;
+
+    }
+
+    .materialize-textarea:focus {
+
+        border-bottom: 1px solid #146799 !important;
+        box-shadow: 0 1px 0 0 #146799 !important
+    }
+
+
+    .button2 {
+      display: flex;
+      align-items: center;
+      border-radius: 4px;
+      background-color: #0A1733;
+      border: none;
+      color: #FFFFFF;
+      text-align: center;
+      font-size: 16px;
+      padding: 12px;
+      width: 190px;
+      cursor: pointer;
+      margin: 5px;
+  
+    }
+
+    .button3 {
+      display: flex;
+      align-items: center;
+      border-radius: 4px;
+      background-color: #0A1733;
+      border: none;
+      color: #FFFFFF;
+      text-align: center;
+      font-size: 16px;
+      padding: 12px;
+      width: 240px;
+      cursor: pointer;
+      margin: 5px;
+  
+    }
+  
+    .button2:active {
+  
+      background-color: #0A1733;
+    }
+
+    
+  
+    

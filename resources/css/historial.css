@@ -1,0 +1,135 @@
+#Servicios{
+   padding-top:40px;
+   padding-bottom:40px;
+}
+
+#Servicios img{
+  min-width: 390px;
+  max-width: 400px;
+  border: black 2px solid;
+}
+
+#descripcion
+{
+  padding-left:20px;
+}
+
+#DescripcionServicio
+{
+    padding-right:40px;
+    text-align:justify;
+}
+
+.navbarColor
+{
+    background-color: rgb(10, 23, 51);
+    height:66px;
+}
+        
+#navbar img
+{
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 20px;
+    max-height: 270px;
+    max-width:  240px;
+    repeat: no-repeat;
+}
+        
+.logo-submenu
+{
+    max-height:120px;
+    max-width: 120px;
+    display:block;
+    margin:auto;
+}
+        
+#mobile-sidenav p
+{
+    padding-right:50px;
+}
+
+#footer
+{
+    background-color: rgb(10, 23, 51);
+}
+
+#footer h6
+{
+    padding-top:5px;
+    padding-bottom:15px;
+}
+
+#ubicacion img
+{
+    border: white 2px solid;
+    max-width:270px;
+    max-height:270px;
+}
+
+#contacto img
+{
+    max-width:25px;
+    max-height:25px;
+}
+
+#footer p
+{
+    font-size:17px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.espacioIconos
+{
+    padding-bottom:10px;
+}
+
+.margen
+{
+    padding-top:20px;
+}
+
+.margenBotones
+{
+    font-size:28px;
+    padding-top:0px;
+    padding-bottom:30px;
+    padding-right: 25px;
+}
+    
+.iconosCards 
+{
+    text-align:center;    
+}
+
+.tamañoCarta
+{
+    min-height:240px;
+    max-height:240px;
+}
+
+#imagen-producto img{
+    padding-left:70px;
+}
+
+#datos-producto h6{
+    font-weight: bold;
+    padding-top:5px;
+    padding-bottom:5px;
+}
+
+#datos-producto {
+    padding-left: 35px;
+}
+
+#boton-producto {
+    padding-left: 35px;
+    padding-top:20px;
+}
+
+#cantidad-producto {
+    padding-top:30px;
+}
+
