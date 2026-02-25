@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/env.php';
+
 $email = "";
 $name = "";
 $errors = array();
@@ -87,9 +89,11 @@ class Correo extends Validator
                 in_array($_SERVER['SERVER_NAME'], ['localhost', '127.0.0.1'])
             );
 
-            // Cabeceras (mejoradas)
-            $headers  = "From: GameBridge <botcastroll24@gmail.com>\r\n";
-            $headers .= "Reply-To: botcastroll24@gmail.com\r\n";
+            // Cabeceras (mejoradas) usando variables de entorno si están disponibles
+            $fromName = getenv('MAIL_FROM_NAME') ?: 'GameBridge';
+            $fromAddress = getenv('MAIL_FROM_ADDRESS') ?: 'botcastroll24@gmail.com';
+            $headers  = "From: {$fromName} <{$fromAddress}>\r\n";
+            $headers .= "Reply-To: {$fromAddress}\r\n";
             $headers .= "MIME-Version: 1.0\r\n";
             $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 

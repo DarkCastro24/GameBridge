@@ -137,3 +137,14 @@ http://localhost/GameBridge_Legacy/views/public/
   
 ---
 
+## Variables de entorno
+
+Este proyecto ahora soporta variables de entorno para credenciales sensibles.
+
+- Copie el archivo `.env.example` a `.env` en la raíz del proyecto.
+- Actualice los valores (`DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS`, `DB_PORT`, `MAIL_FROM_NAME`, `MAIL_FROM_ADDRESS`).
+- Asegúrese de que `.env` no se suba al repositorio (ya está incluido en `.gitignore`).
+
+Nota: Para carga automática más avanzada puede instalar `vlucas/phpdotenv` y reemplazar el cargador simple incluido.
+
+

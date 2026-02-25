@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/env.php';
 /*
 *   Clase para realizar las operaciones en la base de datos.
 */
@@ -14,14 +15,15 @@ class Database
     */
     private static function connect()
     {
-        // Credenciales para establecer la conexión con la base de datos.
-        $server = 'localhost';
-        $database = 'GameBridge2';
-        $username = 'postgres';
-        $password = '2002';
+        // Credenciales para establecer la conexión con la base de datos. Se leen de variables de entorno si están disponibles.
+        $server = getenv('DB_HOST') ?: 'localhost';
+        $database = getenv('DB_NAME') ?: 'Gamebridge';
+        $username = getenv('DB_USER') ?: 'db_user';
+        $password = getenv('DB_PASS') ?: 'db_pass';
+        $port = getenv('DB_PORT') ?: '5432';
 
         // Se crea la conexión mediante la extensión PDO y el controlador para PostgreSQL.
-        self::$connection = new PDO('pgsql:host='.$server.';dbname='.$database.';port=5432', $username, $password);
+        self::$connection = new PDO('pgsql:host=' . $server . ';dbname=' . $database . ';port=' . $port, $username, $password);
     }
 
     /*
@@ -114,9 +116,10 @@ class Database
             self::$connection = null;
             return self::$statement->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $error) {
+            error_log('[Database Error] Code: ' . $error->getCode() . ' | Message: ' . $error->getMessage());
             // Se obtiene el código y el mensaje de la excepción para establecer un error personalizado.
             self::setException($error->getCode(), $error->getMessage());
-            return false;
+            return false; // o return 0; según el método
         }
     }
 

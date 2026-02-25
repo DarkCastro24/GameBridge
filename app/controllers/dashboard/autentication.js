@@ -55,7 +55,7 @@ function verificarCodigo() {
                         sweetAlert(1, response.message,'main.php');
                     } else {
                         // Validamos el numero de intentos al verificar el codigo
-                        if (accion == 3) {
+                        if (accion >= 3) {
                             // Si el usuario se equivoca mas de 3 veces en el codigo redirigira al index
                             sweetAlert(4, 'Has fallado 3 veces el código seras redirigido al login', 'index.php');          
                         } else {
@@ -72,4 +72,25 @@ function verificarCodigo() {
             console.log(error);
         }); 
     } 
+}
+
+// Método para cerrar sesion por inactividad
+function logOut2() {
+    fetch(API_USUARIOS + 'logOut2', {
+        method: 'post'
+    }).then(function (request) {
+        if (request.ok) {
+            request.json().then(function (response) {
+                if (response.status) {
+                    location.href = 'index.php';
+                } else {
+                    sweetAlert(3, response.exception, null);
+                }
+            });
+        } else {
+            console.log(request.status + ' ' + request.statusText);
+        }
+    }).catch(function (error) {
+        console.log(error);
+    });
 }

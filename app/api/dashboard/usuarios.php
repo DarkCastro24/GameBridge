@@ -353,8 +353,11 @@ if (isset($_GET['action'])) {
             // Caso para enviar el codigo de verificacion al correo del usuario
             case 'sendVerification':
                 $_POST = $usuario->validateForm($_POST);
-                // Generamos el codigo de seguridad 
-                $code = rand(999999, 111111);
+                // Log para depuración
+                error_log('[sendVerification] SESSION correo: ' . ($_SESSION['correo'] ?? 'NO DEFINIDO'));
+                error_log('[sendVerification] POST correo: ' . ($_POST['correo'] ?? 'NO DEFINIDO'));
+                // Generamos el codigo de seguridad (min debe ser menor que max)
+                $code = rand(111111, 999999);
                 // Concatenamos el codigo generado dentro del mensaje a enviar
                 $message = "Ingrese el siguiente codigo dentro del formulario para iniciar sesión: $code";
                 // Colocamos el asunto del correo a enviar
@@ -475,8 +478,10 @@ if (isset($_GET['action'])) {
 
             case 'sendEmail':
                 $_POST = $usuario->validateForm($_POST);
-                // Generamos el codigo de seguridad 
-                $code = rand(999999, 111111);
+                // Log para depuración
+                error_log('[sendEmail] POST correo: ' . ($_POST['correo'] ?? 'NO DEFINIDO'));
+                // Generamos el codigo de seguridad (min debe ser menor que max)
+                $code = rand(111111, 999999);
                 // Concatenamos el codigo generado dentro del mensaje a enviar
                 $message = "Has solicitado recuperar tu contraseña por medio de correo electrónico, su código de seguridad es: $code";
                 // Colocamos el asunto del correo a enviar
@@ -562,6 +567,8 @@ if (isset($_GET['action'])) {
             case 'logIn':
                 // Obtenemos el post para tener acceso a los inputs del formulario
                 $_POST = $usuario->validateForm($_POST);
+                // Log para depuración
+                error_log('[logIn] Intento de login para alias: ' . ($_POST['alias'] ?? 'NO DEFINIDO'));
                 // Ejecutamos la funcion para verificar si existe el usuario
                 if ($usuario->checkUser($_POST['alias'])) {
                     if ($usuario->checkState($_POST['alias'])) {

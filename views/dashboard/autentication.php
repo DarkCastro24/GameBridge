@@ -22,7 +22,7 @@ Dashboard_Page::headerTemplate('Iniciar sesión');
                         print'
                             <div class="form-field">
                                 <label for="correo">Correo electrónico</label>
-                                <input id="correo" type="text" name="correo" autocomplete="off" value="'.$_SESSION['correo']. '" class="validate white-text" required disabled />
+                                <input id="correo" type="text" name="correo" autocomplete="off" value="'.$_SESSION['correo']. '" class="validate white-text" required readonly />
                             </div><br>'
                         ?>
                         <div class="form-field">
