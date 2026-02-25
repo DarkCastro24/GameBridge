@@ -95,3 +95,37 @@ body {
 
 
 }
+
+/* ============================================================
+   ESTILOS PARA LOGIN CON GOOGLE
+   Agregar al final de public_login.css
+   ============================================================ */
+
+/* Separador "o continúa con" */
+.google-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 18px 0 14px 0;
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.google-divider::before,
+.google-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #ddd;
+}
+
+.google-divider span {
+    padding: 0 10px;
+    white-space: nowrap;
+}
+
+/* Centrar el botón de Google */
+.google-btn-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}

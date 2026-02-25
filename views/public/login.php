@@ -7,21 +7,22 @@ Public_Page::headerTemplate('Iniciar sesión', 'public');
 
 <head>
     <link type="text/css" rel="stylesheet" href="../../resources/css/public_login.css" />
+    <!-- Google Sign-In SDK -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 
 <body>
     <div class="row login">
         <div class="col s12 m12 l4 push-l3 offset-l1">
-            <div class="card ">
+            <div class="card">
                 <div class="card-action white-text center-align">
-                    <h4>Inicio de sesión </h4>
+                    <h4>Inicio de sesión</h4>
                     <img src="../../resources/img/brand/Logo.png" width="170" height="120">
                 </div>
                 <div class="card-content">
                     <form method="post" id="session-form">
                         <div class="form-field">
-                            <label for="email">Correo electrónico
-                            </label>
+                            <label for="email">Correo electrónico</label>
                             <input id="email" type="text" name="email" class="validate" autocomplete="off" required>
                         </div><br>
                         <div class="form-field">
@@ -29,22 +30,33 @@ Public_Page::headerTemplate('Iniciar sesión', 'public');
                             <input id="clave" type="password" name="clave" class="validate" autocomplete="off" required>
                         </div><br>
                         <div class="form-field center-align">
-                            <a><button type="submit" class="button"><span>Ingresar</span>
-                                </button>
-                            </a>
+                            <a><button type="submit" class="button"><span>Ingresar</span></button></a>
                         </div>
                         <div class="form-field center-align">
-                                <a href="codigo.php" class="">¿Has olvidado tu contraseña?</a>
+                            <a href="codigo.php">¿Has olvidado tu contraseña?</a>
                         </div>
-
                     </form>
+
+                    <!-- Separador visual -->
+                    <div class="google-divider">
+                        <span>o continúa con</span>
+                    </div>
+
+                    <!-- Botón de Google Sign-In -->
+                    <div class="google-btn-container center-align">
+                        <div id="google-signin-btn"></div>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
-    </div>
 </body>
 
+<!-- Inyectar el Client ID de Google como variable JS accesible por login.js -->
+<script>
+    const GOOGLE_CLIENT_ID_VALUE = '<?php echo GOOGLE_CLIENT_ID; ?>';
+</script>
 
 <?php
 Public_Page::footerTemplate('login.js');

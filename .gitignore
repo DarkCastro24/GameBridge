@@ -5,3 +5,6 @@
 /.env.backup
 node_modules/
 vendor/
+
+# Credenciales de Google OAuth
+/app/helpers/google_config.php

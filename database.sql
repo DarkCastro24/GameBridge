@@ -1,9 +1,3 @@
-/* 
-	BASE DE DATOS: GAMEBRIDGE 
-	ULTIMA MODIFICACIÓN: 26/01/2026
-	AUTOR: DIEGO EDUARDO CASTRO QUINTANILLA
-*/
-
 CREATE DATABASE Gamebridge;
 
 -- CATEGORIAS
@@ -277,8 +271,64 @@ ADD COLUMN IF NOT EXISTS codigo_recu integer NULL;
 ALTER TABLE public.clientes
 ADD COLUMN IF NOT EXISTS codigo_recu integer NULL;
 
+-- ESTADO CLIENTES (espejo de estadousuarios, independiente para clientes)
+CREATE TABLE IF NOT EXISTS public.estadocliente (
+  idestado  INTEGER PRIMARY KEY,
+  estado    VARCHAR(25) NOT NULL
+);
 
-/* PROCESOS ALMACENADOS y FUNCIONES */
+INSERT INTO public.estadocliente (idestado, estado)
+VALUES (1, 'Activo'), (2, 'Bloqueado')
+ON CONFLICT (idestado) DO NOTHING;
+
+-- Ajustar columna estado de clientes: de BOOLEAN a INTEGER con FK
+ALTER TABLE public.clientes
+ALTER COLUMN estado DROP DEFAULT;
+
+ALTER TABLE public.clientes
+ALTER COLUMN estado TYPE integer
+USING CASE WHEN estado = true THEN 1 ELSE 2 END;
+
+ALTER TABLE public.clientes
+ALTER COLUMN estado SET DEFAULT 1;
+
+ALTER TABLE public.clientes
+ADD CONSTRAINT fk_clientes_estado
+FOREIGN KEY (estado)
+REFERENCES public.estadocliente (idestado)
+ON UPDATE CASCADE
+ON DELETE RESTRICT;
+
+-- Agregar columna fechaclave si no existe (para control de expiración de contraseña)
+ALTER TABLE public.clientes
+ADD COLUMN IF NOT EXISTS fechaclave TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now();
+
+-- Agregar columna intentos si no existe (para bloqueo por intentos fallidos)
+ALTER TABLE public.clientes
+ADD COLUMN IF NOT EXISTS intentos INTEGER NOT NULL DEFAULT 0;
+
+-- Agregar columna codigo_recu si no existe (para recuperación de contraseña por correo)
+ALTER TABLE public.clientes
+ADD COLUMN IF NOT EXISTS codigo_recu INTEGER NULL;
+
+-- ============================================================
+--  HISTORIAL CLIENTE 
+--  Espejo de historialusuario pero para clientes
+-- ============================================================
+CREATE TABLE IF NOT EXISTS public.historialcliente (
+  idhistorial SERIAL PRIMARY KEY,
+  cliente     INTEGER NOT NULL,
+  sistema     VARCHAR(150) NOT NULL,
+  hora        TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
+  CONSTRAINT fk_historialcliente_cliente FOREIGN KEY (cliente)
+    REFERENCES public.clientes (idcliente)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS ix_historialcliente_cliente ON public.historialcliente (cliente);
+CREATE INDEX IF NOT EXISTS ix_historialcliente_sistema ON public.historialcliente (sistema);
+
 
 -- Funcion para obtener los días para la consulta SELECT diasClave(?)
 CREATE OR REPLACE FUNCTION public.diasclave(fecha TIMESTAMP)
