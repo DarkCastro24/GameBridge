@@ -721,3 +721,30 @@ SELECT idcategoria AS id, categoria, descripcion, imagen
                 ORDER BY categoria
 
 DROP INDEX IF EXISTS public.uq_clientes_dui;
+
+ALTER TABLE public.categorias
+ALTER COLUMN descripcion TYPE VARCHAR(1000);
+
+ALTER TABLE public.productos
+ALTER COLUMN descripcion TYPE VARCHAR(1000);
+
+-- ============================================================
+--  UUID - Identificador único universal para cada registro
+-- ============================================================
+ALTER TABLE public.usuarios
+ADD COLUMN IF NOT EXISTS uuid VARCHAR(36) NULL;
+
+ALTER TABLE public.clientes
+ADD COLUMN IF NOT EXISTS uuid VARCHAR(36) NULL;
+
+ALTER TABLE public.productos
+ADD COLUMN IF NOT EXISTS uuid VARCHAR(36) NULL;
+
+ALTER TABLE public.categorias
+ADD COLUMN IF NOT EXISTS uuid VARCHAR(36) NULL;
+
+ALTER TABLE public.facturas
+ADD COLUMN IF NOT EXISTS uuid VARCHAR(36) NULL;
+
+ALTER TABLE public.detallepedidos
+ADD COLUMN IF NOT EXISTS uuid VARCHAR(36) NULL;

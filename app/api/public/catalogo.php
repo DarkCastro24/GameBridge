@@ -54,7 +54,7 @@ if (isset($_GET['action'])) {
         case 'search':
             $_POST = $categoria->validateForm($_POST);
             if ($_POST['search'] != '') {
-                if ($result['dataset'] = $categoria->searchRows($_POST['search'])) {
+                if ($result['dataset'] = $producto->searchRows($_POST['search'])) {
                     $result['status'] = 1;
                     $rows = count($result['dataset']);
                     if ($rows > 1) {
@@ -75,7 +75,7 @@ if (isset($_GET['action'])) {
             break;
         // Metodo para cargar los productos por categoría
         case 'readProductosCategoria':
-            if ($categoria->setId($_POST['id_categoria'])) {
+            if ($categoria->setIdcategoria($_POST['id_categoria'])) {
                 if ($result['dataset'] = $categoria->readProductosCategoria()) {
                     $result['status'] = 1;
                 } else {
@@ -91,8 +91,8 @@ if (isset($_GET['action'])) {
             break;
         // Metodo para cargar los datos del producto seleccionado
         case 'readOne':
-            if ($categoria->setId($_POST['id'])) {
-                if ($result['dataset'] = $categoria->readOne()) {
+            if ($producto->setId($_POST['id'])) {
+                if ($result['dataset'] = $producto->readOne()) {
                     $result['status'] = 1;
                 } else {
                     if (Database::getException()) {

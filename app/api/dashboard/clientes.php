@@ -23,7 +23,7 @@ if (isset($_GET['action'])) {
                     if (Database::getException()) {
                         $result['exception'] = Database::getException();
                     } else {
-                        $result['exception'] = 'No hay usuarios registrados';
+                        $result['exception'] = 'No hay clientes registrados';
                     }
                 }
                 break;

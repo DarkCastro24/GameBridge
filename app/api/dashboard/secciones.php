@@ -24,7 +24,7 @@ if (isset($_GET['action'])) {
                     if (Database::getException()) {
                         $result['exception'] = Database::getException();
                     } else {
-                        $result['exception'] = 'No hay categorías registradas';
+                        $result['exception'] = 'No hay secciones registradas';
                     }
                 }
                 break;

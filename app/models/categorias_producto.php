@@ -113,9 +113,10 @@ class Categorias_Producto extends Validator
     // Crear categoria
     public function createRow()
     {
-        $sql = 'INSERT INTO categorias(categoria, seccion, descripcion, imagen)
-            VALUES(?, ?, ?, ?)';
-        $params = array($this->categoria, $this->seccion, $this->descripcion, $this->imagen);
+        $uuid = self::generateUUID();
+        $sql = 'INSERT INTO categorias(uuid, categoria, seccion, descripcion, imagen)
+            VALUES(?, ?, ?, ?, ?)';
+        $params = array($uuid, $this->categoria, $this->seccion, $this->descripcion, $this->imagen);
         return Database::executeRow($sql, $params);
     }
 
@@ -154,7 +155,7 @@ class Categorias_Producto extends Validator
     // Cargar productos de una categoria (solo activos)
     public function readProductosCategoria()
     {
-        $sql = 'SELECT p.producto, p.precio, m.marca, p.cantidad
+        $sql = 'SELECT p.idproducto, p.producto, p.precio, m.marca, p.cantidad, p.imagen
                 FROM productos p
                 INNER JOIN categorias c ON c.idcategoria = p.categoria
                 INNER JOIN marcas m ON m.idmarca = p.marca

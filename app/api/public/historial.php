@@ -18,7 +18,7 @@ if (isset($_GET['action'])) {
                 if (Database::getException()) {
                     $result['exception'] = Database::getException();
                 } else {
-                    $result['exception'] = 'No existen categorías para mostrar';
+                    $result['exception'] = 'No existen pedidos en el historial';
                 }
             }
             break;

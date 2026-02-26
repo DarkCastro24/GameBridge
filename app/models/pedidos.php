@@ -153,9 +153,10 @@ class Pedidos extends Validator
             return true;
         } else {
             // Creamos la sentencia SQL que contiene la consulta que mandaremos a la base
-            $sql = 'INSERT INTO facturas(estado,cliente,fecha,vendedor) VALUES(?, ?,current_date,12)';
+            $uuid = self::generateUUID();
+            $sql = 'INSERT INTO facturas(uuid,estado,cliente,fecha,vendedor) VALUES(?,?, ?,current_date,12)';
             // Cargamos los parametros en un arreglo
-            $params = array($this->estado, $_SESSION['idcliente']);
+            $params = array($uuid, $this->estado, $_SESSION['idcliente']);
             // Se obtiene el ultimo valor insertado en la llave primaria de la tabla pedidos.
             if ($this->id_pedido = Database::getLastRow($sql, $params)) {
                 return true;
@@ -190,8 +191,9 @@ class Pedidos extends Validator
     public function createDetail()
     {
         // Se realiza una subconsulta para obtener el precio del producto.
-        $sql = 'INSERT INTO detallepedidos(producto, preciounitario, cantidad, pedido) VALUES(?, ?, ?, ?)';
-        $params = array($this->producto, $this->precio, $this->cantidad, $this->id_pedido);
+        $uuid = self::generateUUID();
+        $sql = 'INSERT INTO detallepedidos(uuid, producto, preciounitario, cantidad, pedido) VALUES(?, ?, ?, ?, ?)';
+        $params = array($uuid, $this->producto, $this->precio, $this->cantidad, $this->id_pedido);
         return Database::executeRow($sql, $params);
     }
 

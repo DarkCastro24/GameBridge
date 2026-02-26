@@ -157,16 +157,10 @@ class Public_Page
     public static function footerTemplate($controller)
     {
         $filename = basename($_SERVER['PHP_SELF']);
-
-        // googleScript eliminado: la inicialización del SDK de Google
-        // se maneja completamente dentro de login.js para evitar
-        // problemas de orden de carga con async defer.
         $googleScript = '';
 
-        if (isset($_SESSION['idcliente'])) {
-            print('
-    </main> 
-    <footer class="page-footer footer-modern" id="footer">
+        $footerHtml = '
+            <footer class="page-footer footer-modern" id="footer">
                 <div class="container">
                     <div class="row">
                         <div class="col s12 m6 l3 footer-section">
@@ -236,7 +230,12 @@ class Public_Page
                         </div>
                     </div>
                 </div>
-            </footer>
+            </footer>';
+
+        if (isset($_SESSION['idcliente'])) {
+            print('
+    </main>
+    ' . $footerHtml . '
     <script type="text/javascript" src="../../resources/js/materialize.min.js"></script>
     <script type="text/javascript" src="../../app/controllers/initialization.js"></script>
     <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
@@ -244,6 +243,21 @@ class Public_Page
     <script type="text/javascript" src="../../app/controllers/public/initialization.js"></script>
     <script type="text/javascript" src="../../app/controllers/public/account.js"></script>
     <script type="text/javascript" src="../../app/controllers/public/logout.js"></script>
+    <script type="text/javascript" src="../../app/controllers/public/' . $controller . '"></script>
+    ' . $googleScript . '
+    </body>
+    </html>
+            ');
+        } else {
+            if ($filename != 'login.php' && $filename != 'codigo.php' && $filename != 'clave.php') {
+                print('
+    </main>
+    ' . $footerHtml . '
+    <script type="text/javascript" src="../../resources/js/materialize.min.js"></script>
+    <script type="text/javascript" src="../../app/controllers/initialization.js"></script>
+    <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="../../app/helpers/components.js"></script>
+    <script type="text/javascript" src="../../app/controllers/public/initialization.js"></script>
     <script type="text/javascript" src="../../app/controllers/public/' . $controller . '"></script>
     ' . $googleScript . '
     </body>
@@ -251,106 +265,17 @@ class Public_Page
                 ');
             } else {
                 print('
-    </main> 
-    <script type="text/javascript" src="../../resources/js/materialize.min.js"></script>
-    <script type="text/javascript" src="../../app/controllers/initialization.js"></script>
-    <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
-    <script type="text/javascript" src="../../app/helpers/components.js"></script>
-    <script type="text/javascript" src="../../app/controllers/public/initialization.js"></script>
-    <script type="text/javascript" src="../../app/controllers/public/account.js"></script>
-    <script type="text/javascript" src="../../app/controllers/public/logout.js"></script>
-    <script type="text/javascript" src="../../app/controllers/public/' . $controller . '"></script>
-    </body>
-    </html> 
-                ');
-        } else {
-            if ($filename != 'login.php' && $filename != 'codigo.php' && $filename != 'clave.php') {
-                print('<footer class="page-footer footer-modern" id="footer">
-                <div class="container">
-                    <div class="row">
-                        <div class="col s12 m6 l3 footer-section">
-                            <h6><i class="material-icons tiny">call</i> Contáctanos</h6>
-                            <div class="footer-contact">
-                                <img src="../../resources/img/iconos/telefono.png" alt="telefono">
-                                <p><strong>Teléfono:</strong><br>7988-5288</p>
-                            </div>
-                            <div class="footer-contact">
-                                <img src="../../resources/img/iconos/whatsapp.png" alt="whatsapp">
-                                <p><strong>WhatsApp:</strong><br>2593-1265</p>
-                            </div>
-                            <div class="footer-contact">
-                                <img src="../../resources/img/iconos/correo.png" alt="correo">
-                                <p><strong>Email:</strong><br>GbStore@gmail.com</p>
-                            </div>
-                        </div>
-                        <div class="col s12 m6 l3 footer-section">
-                            <h6><i class="material-icons tiny">share</i> Síguenos</h6>
-                            <p style="font-size: 13px; color: rgba(255,255,255,0.8);">Mantente conectado con nosotros</p>
-                            <div class="social-icons">
-                                <a href="https://facebook.com/gamebridgestore" class="social-btn" target="_blank" title="Facebook">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                                <a href="https://instagram.com/gamebridgesv" class="social-btn" target="_blank" title="Instagram">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                                <a href="https://twitter.com/gamebridgesv" class="social-btn" target="_blank" title="Twitter">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
-                                <a href="https://linkedin.com/company/gamebridge" class="social-btn" target="_blank" title="LinkedIn">
-                                    <i class="fab fa-linkedin-in"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col s12 m6 l3 footer-section hide-on-small-and-down">
-                            <h6><i class="material-icons tiny">location_on</i> Ubicación</h6>
-                            <p style="font-size: 13px; line-height: 1.8;">
-                                <strong>GameBridge Store</strong><br>
-                                Avenida Aguilares 218<br>
-                                San Salvador, CP 1101<br>
-                                El Salvador
-                            </p>
-                        </div>
-                        <div class="col s12 m6 l3 footer-section">
-                            <h6><i class="material-icons tiny">schedule</i> Horarios</h6>
-                            <p style="font-size: 13px; line-height: 1.8;">
-                                <strong>Lunes - Viernes:</strong><br>09:00 AM - 6:00 PM<br><br>
-                                <strong>Sábado:</strong><br>10:00 AM - 4:00 PM<br><br>
-                                <strong>Domingo:</strong><br>Cerrado
-                            </p>
-                        </div>
-                    </div>
-                    <div class="footer-divider">
-                        <p>Partner Oficial</p>
-                    </div>
-                </div>
-                <div class="footer-copyright-bottom">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col s12 m6 left-align">
-                                <p>&copy; 2026 <strong>GameBridge Store</strong>. Todos los derechos reservados.</p>
-                            </div>
-                            <div class="col s12 m6 right-align hide-on-small-and-down">
-                                <p>Desarrollado con <i class="tiny material-icons" style="vertical-align: middle;">favorite</i> en El Salvador</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer>');
-            }
-            print('
-    </main> 
+    </main>
     <script type="text/javascript" src="../../resources/js/materialize.min.js"></script>
     <script type="text/javascript" src="../../app/controllers/initialization.js"></script>
     <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
     <script type="text/javascript" src="../../app/helpers/components.js"></script>
     <script type="text/javascript" src="../../app/controllers/public/initialization.js"></script>
     <script type="text/javascript" src="../../app/controllers/public/' . $controller . '"></script>
-    ' . $googleScript . '
     </body>
     </html>
-            ');
-        // Nota: $controller ya se carga antes de $googleScript,
-        // así handleGoogleLogin está disponible cuando Google SDK la busca.
+                ');
+            }
         }
     }
 
@@ -466,4 +391,3 @@ class Public_Page
         ');
     }
 }
-?>

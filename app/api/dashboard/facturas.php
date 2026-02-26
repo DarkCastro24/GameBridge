@@ -25,7 +25,7 @@ if (isset($_GET['action'])) {
                     if (Database::getException()) {
                         $result['exception'] = Database::getException();
                     } else {
-                        $result['exception'] = 'No hay facturas registrados';
+                        $result['exception'] = 'No hay facturas registradas';
                     }
                 }
                 break;

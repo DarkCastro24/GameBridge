@@ -181,8 +181,6 @@ function readRows3(api) {
                 // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
                 if (response.status) {
                     data = response.dataset;
-                } else {
-                    sweetAlert(4, response.exception, null);
                 }
                 // Se envían los datos a la función del controlador para que llene la tabla en la vista.
                 fillTable4(data);

@@ -13,6 +13,22 @@ class Validator
     private $targetHeight = null;
 
     /*
+    *   Método para generar un UUID v4 (Universally Unique Identifier).
+    *   Genera un identificador único de 36 caracteres con formato: xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
+    *
+    *   Retorno: string con el UUID generado.
+    */
+    public static function generateUUID()
+    {
+        $data = random_bytes(16);
+        // Establecer la versión 4 (bits 12-15 del byte 6)
+        $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
+        // Establecer la variante RFC 4122 (bits 6-7 del byte 8)
+        $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
+        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+    }
+
+    /*
     *   Método para obtener el error al validar una imagen.
     */
     public function getPasswordError()

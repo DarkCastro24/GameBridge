@@ -165,9 +165,10 @@ class Clientes extends Validator
     //Metodo para registrar a un cliente
     public function ingresarDatos()
     {
-        $sql = 'INSERT INTO clientes(idcliente, estado, nombres, apellidos, dui, correo_electronico, clave, fecharegistro) 
-        VALUES (default, 1, ?, ?, ?, ?, ?, default)';
-        $params = array($this->nombres, $this->apellidos, $this->dui, $this->correo, $this->clave);
+        $uuid = self::generateUUID();
+        $sql = 'INSERT INTO clientes(idcliente, uuid, estado, nombres, apellidos, dui, correo_electronico, clave, fecharegistro) 
+        VALUES (default, ?, 1, ?, ?, ?, ?, ?, default)';
+        $params = array($uuid, $this->nombres, $this->apellidos, $this->dui, $this->correo, $this->clave);
         return Database::executeRow($sql, $params);
     }
 
@@ -225,9 +226,10 @@ class Clientes extends Validator
     {
         // Se encripta la clave por medio del algoritmo bcrypt que genera un string de 60 caracteres.
         $hash = password_hash($this->clave, PASSWORD_DEFAULT);
-        $sql = 'INSERT INTO clientes(idcliente, estado, nombres, apellidos, dui, correo_electronico, clave, fecharegistro,fechaclave) 
-        VALUES (default, 1, ?, ?, ?, ?, ?, default,default)';
-        $params = array($this->nombres, $this->apellidos, $this->dui, $this->correo, $hash);
+        $uuid = self::generateUUID();
+        $sql = 'INSERT INTO clientes(idcliente, uuid, estado, nombres, apellidos, dui, correo_electronico, clave, fecharegistro,fechaclave) 
+        VALUES (default, ?, 1, ?, ?, ?, ?, ?, default,default)';
+        $params = array($uuid, $this->nombres, $this->apellidos, $this->dui, $this->correo, $hash);
         return Database::executeRow($sql, $params);
     }
 

@@ -4,10 +4,16 @@ const API_PEDIDOS = '../../app/api/public/pedidos.php?action=';
 
 // Método manejador de eventos que se ejecuta cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', function () {
-    //Colocamos id = 1 porque 1 es la categoria de hardware en la base y servira para filtrar los productos
+    //Colocamos id = 3 porque 3 es la categoria de accesorios en la base y servira para filtrar los productos
     document.getElementById('txtSeccion').value = 3; 
     // Se llama a la función que muestra las categorías disponibles.
     readAllCategorias();
+    // Verificamos si existe un id de categoría en la URL para cargar los productos automáticamente.
+    const params = new URLSearchParams(window.location.search);
+    const idCategoria = params.get('idCategoria');
+    if (idCategoria) {
+        readProductosCategoria(idCategoria);
+    }
 });
 
 // Metodo para cargar los datos mediante busqueda filtrada al presionar el boton
@@ -60,7 +66,7 @@ function readAllCategorias() {
                         // Se carga la estructura de los botones en el menu lateral
                         content += `
                             <div class="col s12 m6 l12">
-                                <a class="waves-effect btn" onclick="readProductosCategoria(${row.id})">${row.categoria}</a> 
+                                <a class="waves-effect btn" onclick="readProductosCategoria(${row.idcategoria})">${row.categoria}</a> 
                             </div>
                         `;
                     });              
@@ -94,7 +100,7 @@ function fillCards(dataset) {
                 <div class="card-content">
                     <span class="card-title">${row.producto}</span>
                     <p>Precio(US$) ${row.precio}</p><br>
-                    <a onclick="openCreateDialog(${row.id})" class="waves-effect btn tooltipped boton" data-tooltip="Ver detalle">Mas informacion</a>
+                    <a onclick="openCreateDialog(${row.idproducto})" class="waves-effect btn tooltipped boton" data-tooltip="Ver detalle">Mas informacion</a>
                     <br>
                 </div>
             </div>
@@ -109,6 +115,10 @@ function fillCards(dataset) {
 
 // Función para obtener y mostrar los productos de acuerdo a la categoría seleccionada.
 function readProductosCategoria(id) {
+    // Se actualiza la URL con el id de la categoría seleccionada sin recargar la página.
+    const url = new URL(window.location);
+    url.searchParams.set('idCategoria', id);
+    window.history.replaceState({}, '', url);
     // Se define un objeto con los datos del registro seleccionado.
     const data = new FormData();
     data.append('id_categoria', id);
@@ -137,7 +147,7 @@ function readProductosCategoria(id) {
                                     <div class="card-content">
                                         <span class="card-title">${row.producto}</span>
                                         <p>Precio(US$) ${row.precio}</p><br>
-                                        <a onclick="openCreateDialog(${row.id})" class="waves-effect waves-light btn tooltipped boton" data-tooltip="Ver detalle">Mas informacion</a>
+                                        <a onclick="openCreateDialog(${row.idproducto})" class="waves-effect waves-light btn tooltipped boton" data-tooltip="Ver detalle">Mas informacion</a>
                                         <br>
                                     </div>
                                 </div>

@@ -158,7 +158,7 @@ class Productos extends Validator
     public function searchRows($value)
     {
         // Creamos la sentencia SQL que contiene la consulta que mandaremos a la base
-        $sql = 'SELECT idProducto,c.categoria,e.estado,m.marca,producto,precio,descripcion,  imagen 
+        $sql = 'SELECT idProducto as id,c.categoria,e.estado,m.marca,producto,precio,descripcion, imagen 
         FROM productos p
         INNER JOIN categorias c ON c.idCategoria = p.Categoria
         INNER JOIN estadoProductos e ON e.idEstado = p.estado
@@ -173,10 +173,11 @@ class Productos extends Validator
     public function createRow()
     {
         // Creamos la sentencia SQL que contiene la consulta que mandaremos a la base
-        $sql = 'INSERT INTO productos(idproducto, categoria, estado, marca, producto, precio, descripcion, imagen,cantidad)
-            VALUES (default, ?, ?, ?, ?, ?, ?, ?,default);';
+        $uuid = self::generateUUID();
+        $sql = 'INSERT INTO productos(idproducto, uuid, categoria, estado, marca, producto, precio, descripcion, imagen,cantidad)
+            VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?,default);';
         // Envio de parametros
-        $params = array($this->categoria, $this->estado, $this->marca, $this->producto, $this->precio, $this->descripcion,  $this->imagen);
+        $params = array($uuid, $this->categoria, $this->estado, $this->marca, $this->producto, $this->precio, $this->descripcion,  $this->imagen);
         return Database::executeRow($sql, $params);
     }
 

@@ -343,8 +343,10 @@ class Usuarios extends Validator
     public function createRow()
     {
         $hash = password_hash($this->clave, PASSWORD_DEFAULT);
-        $sql = 'INSERT INTO usuarios(tipo, usuario, clave, correo_electronico, telefono, dui) VALUES (?, ?, ?, ?, ?, ?)';
+        $uuid = self::generateUUID();
+        $sql = 'INSERT INTO usuarios(uuid, tipo, usuario, clave, correo_electronico, telefono, dui) VALUES (?, ?, ?, ?, ?, ?, ?)';
         $params = array(
+            $uuid,
             1,                  
             $this->alias,
             $hash,
@@ -380,10 +382,11 @@ class Usuarios extends Validator
     {
         // Se encripta la clave por medio del algoritmo bcrypt que genera un string de 60 caracteres.
         $hash = password_hash($this->clave, PASSWORD_DEFAULT);
-        $sql = 'INSERT INTO usuarios(tipo, estado, usuario, clave, correo_electronico)
-                VALUES(?, ?, ?, ?, ?)';
+        $uuid = self::generateUUID();
+        $sql = 'INSERT INTO usuarios(uuid, tipo, estado, usuario, clave, correo_electronico)
+                VALUES(?, ?, ?, ?, ?, ?)';
         // Creamos la sentencia SQL que contiene la consulta que mandaremos a la base        
-        $params = array($this->tipo, $this->estado, $this->alias, $hash, $this->correo);
+        $params = array($uuid, $this->tipo, $this->estado, $this->alias, $hash, $this->correo);
         return Database::executeRow($sql, $params);
     }
 
