@@ -395,6 +395,65 @@ if (isset($_GET['action'])) {
                 }
                 break;
 
+            case 'logInGoogle':
+                // Método para login solo por correo (usado por Google OAuth)
+                // Recibe correo electrónico y realiza login directo
+                $_POST = $cliente->validateForm($_POST);
+                
+                if (!isset($_POST['email']) || empty($_POST['email'])) {
+                    $result['exception'] = 'Correo electrónico requerido';
+                    break;
+                }
+                
+                // Verificar si el usuario existe
+                if ($cliente->checkUser($_POST['email'])) {
+                    // Verificar que esté activo
+                    if ($cliente->checkState($_POST['email'])) {
+                        // Usuario existe y está activo → iniciar sesión
+                        $result['status'] = 1;
+                        $cliente->historialCliente();
+                        $cliente->intentosCliente(0);
+                        
+                        $_SESSION['idcliente'] = $cliente->getId();
+                        $_SESSION['correo_electronico'] = $cliente->getCorreo();
+                        $_SESSION['nombres'] = $cliente->getNombre();
+                        $_SESSION['google'] = true;
+                        
+                        $result['message'] = 'Sesión iniciada correctamente';
+                    } else {
+                        $result['exception'] = 'Tu cuenta se encuentra bloqueada';
+                    }
+                } else {
+                    if (Database::getException()) {
+                        $result['exception'] = Database::getException();
+                    } else {
+                        $result['exception'] = 'El usuario no existe';
+                    }
+                }
+                break;
+
+            case 'checkEmail':
+                // Método para verificar si un email está registrado
+                $_POST = $cliente->validateForm($_POST);
+                
+                if (!isset($_POST['email']) || empty($_POST['email'])) {
+                    $result['exception'] = 'Correo electrónico requerido';
+                    break;
+                }
+                
+                if ($cliente->checkUser($_POST['email'])) {
+                    $result['status'] = 1;
+                    $result['message'] = 'El correo está registrado';
+                    $result['exists'] = true;
+                } else {
+                    if (Database::getException()) {
+                        $result['exception'] = Database::getException();
+                    } else {
+                        $result['exists'] = false;
+                        $result['message'] = 'El correo no está registrado';
+                    }
+                }
+                break;
 
             case 'sendEmail':
                 $_POST = $cliente->validateForm($_POST);

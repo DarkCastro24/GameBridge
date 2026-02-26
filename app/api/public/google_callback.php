@@ -58,6 +58,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['credential'])) {
     $apellidos   = $payload['family_name'] ?? 'Google';
     $verificado  = $payload['email_verified'] ?? false;
 
+    // 🔍 DEBUG: Mostrar los datos obtenidos de Google en el log
+    error_log('=== GOOGLE OAUTH DEBUG ===');
+    error_log('Email de Google: ' . $correo);
+    error_log('Nombres: ' . $nombres);
+    error_log('Apellidos: ' . $apellidos);
+    error_log('Token verificado: ' . ($verificado ? 'Si' : 'No'));
+    error_log('========================');
+
     if (!$verificado) {
         $result['exception'] = 'El correo de Google no está verificado';
         header('content-type: application/json; charset=utf-8');

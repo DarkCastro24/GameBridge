@@ -119,13 +119,13 @@ Una vez configurado el entorno, acceder desde el navegador:
 Al ingresar por primera vez, el sistema solicitará la creación del usuario Root.
 
 ```
-http://localhost/GameBridge_Legacy/views/dashboard/
+http://localhost/GameBridge/views/dashboard/
 ```
 
 #### Sitio público (Tienda)
 
 ```
-http://localhost/GameBridge_Legacy/views/public/
+http://localhost/GameBridge/views/public/
 ```
 
 ---
