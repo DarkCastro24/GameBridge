@@ -16,12 +16,12 @@ Public_Page::headerTemplate('Iniciar sesión', 'public');
             try {
                 const parts = token.split('.');
                 if (parts.length !== 3) {
-                    console.error('❌ Token JWT inválido');
+                    console.error('Token JWT inválido');
                     return null;
                 }
                 return JSON.parse(atob(parts[1]));
             } catch (error) {
-                console.error('❌ Error decodificando JWT:', error);
+                console.error('Error decodificando JWT:', error);
                 return null;
             }
         }
@@ -29,7 +29,7 @@ Public_Page::headerTemplate('Iniciar sesión', 'public');
         // Función manejador de Google Login
         function handleGoogleLogin(googleResponse) {
             if (!googleResponse || !googleResponse.credential) {
-                console.error('❌ No se recibió respuesta de Google');
+                console.error('No se recibió respuesta de Google');
                 sweetAlert(2, 'No se recibió respuesta de Google', null);
                 return;
             }
@@ -42,8 +42,7 @@ Public_Page::headerTemplate('Iniciar sesión', 'public');
                 return;
             }
 
-            // 🔍 DEBUG: Mostrar los datos del payload de Google en la consola
-            console.log('%c📋 GOOGLE LOGIN - Datos recibidos de Google', 'color: #4CAF50; font-weight: bold; font-size: 14px;');
+            console.log('%cGOOGLE LOGIN - Datos recibidos de Google', 'color: #4CAF50; font-weight: bold; font-size: 14px;');
             console.log('Email:', payload.email);
             console.log('Nombre:', payload.given_name);
             console.log('Apellido:', payload.family_name);
@@ -55,7 +54,7 @@ Public_Page::headerTemplate('Iniciar sesión', 'public');
             const formData = new FormData();
             formData.append('credential', token);
 
-            console.log('%c📤 Enviando token a la API...', 'color: #2196F3; font-weight: bold;');
+            console.log('%cEnviando token a la API...', 'color: #2196F3; font-weight: bold;');
             console.log('URL API:', API_GOOGLE);
             console.log('Método: POST');
 
@@ -65,23 +64,23 @@ Public_Page::headerTemplate('Iniciar sesión', 'public');
             }).then(function (request) {
                 if (request.ok) {
                     request.json().then(function (response) {
-                        console.log('%c✅ Respuesta de la API de Google:', 'color: #4CAF50; font-weight: bold;');
+                        console.log('%cRespuesta de la API de Google:', 'color: #4CAF50; font-weight: bold;');
                         console.log(response);
 
                         if (response.status) {
-                            console.log('%c🎉 Login exitoso, redirigiendo...', 'color: #4CAF50; font-weight: bold;');
+                            console.log('%cLogin exitoso, redirigiendo...', 'color: #4CAF50; font-weight: bold;');
                             sweetAlert(1, response.message, 'index.php');
                         } else {
-                            console.error('❌ Error en login:', response.exception);
+                            console.error('Error en login:', response.exception);
                             sweetAlert(2, response.exception, null);
                         }
                     });
                 } else {
-                    console.error('❌ Error HTTP: ' + request.status + ' ' + request.statusText);
+                    console.error('Error HTTP: ' + request.status + ' ' + request.statusText);
                     sweetAlert(2, 'Error en la conexión: ' + request.status, null);
                 }
             }).catch(function (error) {
-                console.error('❌ Error de red:', error);
+                console.error('Error de red:', error);
                 sweetAlert(2, 'Error de conexión al iniciar sesión con Google', null);
             });
         }

@@ -2,7 +2,7 @@
 /*
 *   Clase para manejar la tabla categorias de la base de datos. Es clase hija de Validator.
 */
-class Categorias extends Validator
+class Categorias_Producto extends Validator
 {
     private $idcategoria = null;
     private $categoria = null;
@@ -164,6 +164,42 @@ class Categorias extends Validator
                 WHERE s.idseccion = ?
                 ORDER BY c.categoria';
         $params = array($this->seccion);
+        return Database::getRows($sql, $params);
+    }
+
+    // Cargar categorías de HARDWARE (sección 1)
+    public function readAllHardware()
+    {
+        $sql = 'SELECT c.idcategoria, c.categoria, c.imagen, s.seccion
+                FROM categorias c
+                INNER JOIN secciones s ON c.seccion = s.idseccion
+                WHERE s.idseccion = 1
+                ORDER BY c.categoria';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+
+    // Cargar categorías de PERIFÉRICOS (sección 2)
+    public function readAllPerifericos()
+    {
+        $sql = 'SELECT c.idcategoria, c.categoria, c.imagen, s.seccion
+                FROM categorias c
+                INNER JOIN secciones s ON c.seccion = s.idseccion
+                WHERE s.idseccion = 2
+                ORDER BY c.categoria';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
+
+    // Cargar categorías de ACCESORIOS (sección 3)
+    public function readAllAccesorios()
+    {
+        $sql = 'SELECT c.idcategoria, c.categoria, c.imagen, s.seccion
+                FROM categorias c
+                INNER JOIN secciones s ON c.seccion = s.idseccion
+                WHERE s.idseccion = 3
+                ORDER BY c.categoria';
+        $params = null;
         return Database::getRows($sql, $params);
     }
 }

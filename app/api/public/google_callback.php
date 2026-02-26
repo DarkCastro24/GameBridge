@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['credential'])) {
     // ----------------------------------------------------------
     $_SESSION['idcliente'] = $cliente->getId();
     $_SESSION['cliente']   = $nombres . ' ' . $apellidos;
-    $_SESSION['correo']    = $correo;
+    $_SESSION['correo_electronico'] = $correo;
     $_SESSION['google']    = true; // Flag para saber que inició con Google
 
     $result['status']  = 1;

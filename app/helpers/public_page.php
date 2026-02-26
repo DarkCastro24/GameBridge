@@ -30,6 +30,7 @@ class Public_Page
                     <title>GameBridge | ' . $title . '</title>
                     <link type="text/css" rel="stylesheet" href="../../resources/css/materialize.min.css"/>
                     <link type="text/css" rel="stylesheet" href="../../resources/css/material_icons.css"/>
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
                     <link type="text/css" rel="stylesheet" href="../../resources/css/' . $css . '.css"/>
                     <link rel="icon" type="image/png" href="../../resources/img/brand/Logo.png" />
                     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -55,7 +56,7 @@ class Public_Page
             if ($filename != 'login.php' && $filename != 'singin.php') {
                 // Se llama al método que contiene el código de las cajas de dialogo (modals).
                 self::modals();
-                if ($filename != 'autentication.php' && $filename != 'password.php') {
+                if ($filename != 'password.php') {
                     print('        
                     <header>
                           <div class="navbar-fixed" id="navbar">
@@ -64,11 +65,10 @@ class Public_Page
                                   <a title="Logo" href="index.php"><img src="../../resources/img/brand/Navbar.png" class="hide-on-med-and-down" alt="Logo" /></a>
                                       <a href="#" data-target="mobile-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                                       <ul class="right hide-on-med-and-down">
-                                          <li><a href="#" class="dropdown-trigger" data-target="dropdown"><i class="material-icons left">verified_user</i><b>' . $_SESSION['correo_electronico'] . '</b></a></li>
+                                          <li><a href="#" class="dropdown-trigger" data-target="dropdown"><i class="material-icons left">verified_user</i><b>' . (isset($_SESSION['correo_electronico']) ? $_SESSION['correo_electronico'] : 'Usuario') . '</b></a></li>
                                           <li><a href="hardware.php">Hardware</a></li>
                                           <li><a href="perifericos.php">Periféricos</a></li>
                                           <li><a href="accesorios.php">Accesorios</a></li>
-                                          <li><a href="Servicios.php">Servicios</a></li>
                                           <li><a class="tooltipped" data-tooltip="Carrito de compras" href="carrito.php"><i class="material-icons">local_grocery_store</i></a></li>
                                           <li><a class="tooltipped" data-tooltip="Historial productos" href="historial.php"><i class="material-icons">book</i></a></li>
                                           <li><a class="tooltipped" data-tooltip="Pedidos" href="pedidos.php"><i class="material-icons">local_shipping</i></a></li>    
@@ -85,11 +85,10 @@ class Public_Page
                           <!--Navegación lateral para dispositivos móviles-->
                           <ul class="sidenav centrar" id="mobile-sidenav">
                               <a title="Logo" href="index.php"><img src="../../resources/img/brand/logo_submenu.png" class="logo-submenu" alt="Logo-Submenu" /></a><hr>
-                              <li><a href="#" class="dropdown-trigger" data-target="dropdown-mobile"><i class="material-icons left">verified_user</i> <b>' . $_SESSION['correo_electronico'] . '</b></a></li>
+                              <li><a href="#" class="dropdown-trigger" data-target="dropdown-mobile"><i class="material-icons left">verified_user</i> <b>' . (isset($_SESSION['correo_electronico']) ? $_SESSION['correo_electronico'] : 'Usuario') . '</b></a></li>
                               <li><a href="hardware.php"><i class="material-icons">desktop_windows</i><p>Hardware</p></a></li>
                               <li><a href="perifericos.php"><i class="material-icons">headset_mic</i><p>Perifericos</p></a></li>
                               <li><a href="accesorios.php"><i class="material-icons">mic</i><p>Accesorios</p></a></li>
-                              <li><a href="Servicios.php"><i class="material-icons">local_shipping</i><p>Servicios</p></a></li>
                               <hr>
                               <li><a href="carrito.php"><i class="material-icons">local_grocery_store</i><p>Carrito</p></a></li>
                               <li><a href="historial.php"><i class="material-icons">book</i><p>Historial productos</p></a></li>
@@ -110,7 +109,7 @@ class Public_Page
             }
         } else {
             if ($filename != 'pedidos.php' && $filename != 'historial.php' && $filename != 'carrito.php') {
-                if ($filename != 'login.php' && $filename != 'codigo.php' && $filename != 'clave.php' && $filename != 'autentication.php' && $filename != 'password.php') {
+                if ($filename != 'login.php' && $filename != 'codigo.php' && $filename != 'clave.php' && $filename != 'password.php') {
                     print('
                     <header>
                         <div class="navbar-fixed" id="navbar">
@@ -122,7 +121,6 @@ class Public_Page
                                         <li><a href="hardware.php">Hardware</a></li>
                                         <li><a href="perifericos.php">Periféricos</a></li>
                                         <li><a href="accesorios.php">Accesorios</a></li>
-                                        <li><a href="servicios.php">Servicios</a></li>
                                         <li><a href="singin.php">Registrate</a></li>
                                         <li><a class="tooltipped" data-tooltip="Iniciar sesión" href="login.php"><i class="material-icons">person</i></a></li>
                                     </ul>
@@ -135,7 +133,6 @@ class Public_Page
                             <li><a href="hardware.php"><i class="material-icons">desktop_windows</i><p>Hardware</p></a></li>
                             <li><a href="perifericos.php"><i class="material-icons">headset_mic</i><p>Perifericos</p></a></li>
                             <li><a href="accesorios.php"><i class="material-icons">mic</i><p>Accesorios</p></a></li>
-                            <li><a href="Servicios.php"><i class="material-icons">local_shipping</i><p>Servicios</p></a></li>
                             <hr>
                             <li><a href="singin.php"><i class="material-icons">add</i><p>Registrarse</p></a></li>
                             <li><a href="LogIn.php"><i class="material-icons">person</i><p>Iniciar Sesion</p></a></li>
@@ -167,52 +164,77 @@ class Public_Page
         $googleScript = '';
 
         if (isset($_SESSION['idcliente'])) {
-            if ($filename != 'autentication.php') {
-                print('
+            print('
     </main> 
-    <footer class="page-footer" id="footer">
+    <footer class="page-footer footer-modern" id="footer">
                 <div class="container">
                     <div class="row">
-                        <div id="contacto" class="col s12 m6 l6 xl3">
-                            <h6>Contactanos</h6>
-                            <div class="row espacioIconos">
-                                <div class="col s3"><img src="../../resources/img/iconos/telefono.png" alt="telefono"></div>
-                                <div class="col s9"><p>7988-5288</p></div>
+                        <div class="col s12 m6 l3 footer-section">
+                            <h6><i class="material-icons tiny">call</i> Contáctanos</h6>
+                            <div class="footer-contact">
+                                <img src="../../resources/img/iconos/telefono.png" alt="telefono">
+                                <p><strong>Teléfono:</strong><br>7988-5288</p>
                             </div>
-                            <div class="row espacioIconos">
-                                <div class="col s3"><img src="../../resources/img/iconos/whatsapp.png" alt="whatsapp"></div>
-                                <div class="col s9"><p>2593-1265</p></div>
+                            <div class="footer-contact">
+                                <img src="../../resources/img/iconos/whatsapp.png" alt="whatsapp">
+                                <p><strong>WhatsApp:</strong><br>2593-1265</p>
                             </div>
-                            <div class="row">
-                                <div class="col s3"><img src="../../resources/img/iconos/correo.png" alt="correo"></div>
-                                <div class="col s9"><p>GbStore@gmail.com</p></div>
-                            </div>        
-                        </div>
-                        <div id="redes" class="col s12 m6 l6 xl3">
-                            <h6>Redes sociales</h6>
-                            <div class="row">
-                                <div class="col s3"><img src="../../resources/img/iconos/facebook.png" alt="facebook"></div>
-                                <div class="col s9"><p>Gamebridge Store</p></div>
-                            </div>
-                            <div class="row">
-                                <div class="col s3"><img src="../../resources/img/iconos/instagram.png" alt="instagram"></div>
-                                <div class="col s9"><p>Gamebridge Store SV</p></div>
+                            <div class="footer-contact">
+                                <img src="../../resources/img/iconos/correo.png" alt="correo">
+                                <p><strong>Email:</strong><br>GbStore@gmail.com</p>
                             </div>
                         </div>
-                        <div class="col s12 m6 l6 xl3 textoDireccion hide-on-med-and-down">
-                            <h6>Ubicación</h6>
-                            <div class="row">
-                                <div class="col s9"><p>Avenida Aguilares 218 San Salvador CP, 1101</p></div>
+                        <div class="col s12 m6 l3 footer-section">
+                            <h6><i class="material-icons tiny">share</i> Síguenos</h6>
+                            <p style="font-size: 13px; color: rgba(255,255,255,0.8);">Mantente conectado con nosotros</p>
+                            <div class="social-icons">
+                                <a href="https://facebook.com/gamebridgestore" class="social-btn" target="_blank" title="Facebook">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="https://instagram.com/gamebridgesv" class="social-btn" target="_blank" title="Instagram">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="https://twitter.com/gamebridgesv" class="social-btn" target="_blank" title="Twitter">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="https://linkedin.com/company/gamebridge" class="social-btn" target="_blank" title="LinkedIn">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
                             </div>
                         </div>
-                        <div id="ubicacion" class="col s12 m6 l6 xl3">
-                            <h6>Mapa</h6>
-                            <img src="../../resources/img/servicios/Ubicacion.jpg" alt="Ubicacion">
+                        <div class="col s12 m6 l3 footer-section hide-on-small-and-down">
+                            <h6><i class="material-icons tiny">location_on</i> Ubicación</h6>
+                            <p style="font-size: 13px; line-height: 1.8;">
+                                <strong>GameBridge Store</strong><br>
+                                Avenida Aguilares 218<br>
+                                San Salvador, CP 1101<br>
+                                El Salvador
+                            </p>
+                        </div>
+                        <div class="col s12 m6 l3 footer-section">
+                            <h6><i class="material-icons tiny">schedule</i> Horarios</h6>
+                            <p style="font-size: 13px; line-height: 1.8;">
+                                <strong>Lunes - Viernes:</strong><br>09:00 AM - 6:00 PM<br><br>
+                                <strong>Sábado:</strong><br>10:00 AM - 4:00 PM<br><br>
+                                <strong>Domingo:</strong><br>Cerrado
+                            </p>
                         </div>
                     </div>
+                    <div class="footer-divider">
+                        <p>Partner Oficial</p>
+                    </div>
                 </div>
-                <div class="footer-copyright">
-                    <div class="container centrar">© 2021 Gamebridge Derechos Reservados</div>
+                <div class="footer-copyright-bottom">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col s12 m6 left-align">
+                                <p>&copy; 2026 <strong>GameBridge Store</strong>. Todos los derechos reservados.</p>
+                            </div>
+                            <div class="col s12 m6 right-align hide-on-small-and-down">
+                                <p>Desarrollado con <i class="tiny material-icons" style="vertical-align: middle;">favorite</i> en El Salvador</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </footer>
     <script type="text/javascript" src="../../resources/js/materialize.min.js"></script>
@@ -241,52 +263,77 @@ class Public_Page
     </body>
     </html> 
                 ');
-            }
         } else {
-            if ($filename != 'login.php' && $filename != 'autentication.php' && $filename != 'codigo.php' && $filename != 'clave.php') {
-                print('<footer class="page-footer" id="footer">
+            if ($filename != 'login.php' && $filename != 'codigo.php' && $filename != 'clave.php') {
+                print('<footer class="page-footer footer-modern" id="footer">
                 <div class="container">
                     <div class="row">
-                        <div id="contacto" class="col s12 m6 l6 xl3">
-                            <h6>Contactanos</h6>
-                            <div class="row espacioIconos">
-                                <div class="col s3"><img src="../../resources/img/iconos/telefono.png" alt="telefono"></div>
-                                <div class="col s9"><p>7988-5288</p></div>
+                        <div class="col s12 m6 l3 footer-section">
+                            <h6><i class="material-icons tiny">call</i> Contáctanos</h6>
+                            <div class="footer-contact">
+                                <img src="../../resources/img/iconos/telefono.png" alt="telefono">
+                                <p><strong>Teléfono:</strong><br>7988-5288</p>
                             </div>
-                            <div class="row espacioIconos">
-                                <div class="col s3"><img src="../../resources/img/iconos/whatsapp.png" alt="whatsapp"></div>
-                                <div class="col s9"><p>2593-1265</p></div>
+                            <div class="footer-contact">
+                                <img src="../../resources/img/iconos/whatsapp.png" alt="whatsapp">
+                                <p><strong>WhatsApp:</strong><br>2593-1265</p>
                             </div>
-                            <div class="row">
-                                <div class="col s3"><img src="../../resources/img/iconos/correo.png" alt="correo"></div>
-                                <div class="col s9"><p>GbStore@gmail.com</p></div>
-                            </div>        
-                        </div>
-                        <div id="redes" class="col s12 m6 l6 xl3">
-                            <h6>Redes sociales</h6>
-                            <div class="row">
-                                <div class="col s3"><img src="../../resources/img/iconos/facebook.png" alt="facebook"></div>
-                                <div class="col s9"><p>Gamebridge Store</p></div>
-                            </div>
-                            <div class="row">
-                                <div class="col s3"><img src="../../resources/img/iconos/instagram.png" alt="instagram"></div>
-                                <div class="col s9"><p>Gamebridge Store SV</p></div>
+                            <div class="footer-contact">
+                                <img src="../../resources/img/iconos/correo.png" alt="correo">
+                                <p><strong>Email:</strong><br>GbStore@gmail.com</p>
                             </div>
                         </div>
-                        <div class="col s12 m6 l6 xl3 textoDireccion hide-on-med-and-down">
-                            <h6>Ubicación</h6>
-                            <div class="row">
-                                <div class="col s9"><p>Avenida Aguilares 218 San Salvador CP, 1101</p></div>
+                        <div class="col s12 m6 l3 footer-section">
+                            <h6><i class="material-icons tiny">share</i> Síguenos</h6>
+                            <p style="font-size: 13px; color: rgba(255,255,255,0.8);">Mantente conectado con nosotros</p>
+                            <div class="social-icons">
+                                <a href="https://facebook.com/gamebridgestore" class="social-btn" target="_blank" title="Facebook">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="https://instagram.com/gamebridgesv" class="social-btn" target="_blank" title="Instagram">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="https://twitter.com/gamebridgesv" class="social-btn" target="_blank" title="Twitter">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="https://linkedin.com/company/gamebridge" class="social-btn" target="_blank" title="LinkedIn">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
                             </div>
                         </div>
-                        <div id="ubicacion" class="col s12 m6 l6 xl3">
-                            <h6>Mapa</h6>
-                            <img src="../../resources/img/servicios/Ubicacion.jpg" alt="Ubicacion">
+                        <div class="col s12 m6 l3 footer-section hide-on-small-and-down">
+                            <h6><i class="material-icons tiny">location_on</i> Ubicación</h6>
+                            <p style="font-size: 13px; line-height: 1.8;">
+                                <strong>GameBridge Store</strong><br>
+                                Avenida Aguilares 218<br>
+                                San Salvador, CP 1101<br>
+                                El Salvador
+                            </p>
+                        </div>
+                        <div class="col s12 m6 l3 footer-section">
+                            <h6><i class="material-icons tiny">schedule</i> Horarios</h6>
+                            <p style="font-size: 13px; line-height: 1.8;">
+                                <strong>Lunes - Viernes:</strong><br>09:00 AM - 6:00 PM<br><br>
+                                <strong>Sábado:</strong><br>10:00 AM - 4:00 PM<br><br>
+                                <strong>Domingo:</strong><br>Cerrado
+                            </p>
                         </div>
                     </div>
+                    <div class="footer-divider">
+                        <p>Partner Oficial</p>
+                    </div>
                 </div>
-                <div class="footer-copyright">
-                    <div class="container centrar">© 2021 Gamebridge Derechos Reservados</div>
+                <div class="footer-copyright-bottom">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col s12 m6 left-align">
+                                <p>&copy; 2026 <strong>GameBridge Store</strong>. Todos los derechos reservados.</p>
+                            </div>
+                            <div class="col s12 m6 right-align hide-on-small-and-down">
+                                <p>Desarrollado con <i class="tiny material-icons" style="vertical-align: middle;">favorite</i> en El Salvador</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </footer>');
             }

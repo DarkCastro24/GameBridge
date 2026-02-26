@@ -57,8 +57,7 @@ class Dashboard_Page
                 // Se compara el tipo de usuario que ha iniciado sesion en el sistema                
                 if ($_SESSION['tipo'] == 1) {
                     // Se imprime el código HTML para el encabezado del documento con el menú de opciones.
-                    if ($filename != 'autentication.php') {
-                        print('
+                    print('
                         <!--Encabezado del documento-->
                         <header>
                             <!--Barra de navegación fija-->
@@ -107,10 +106,9 @@ class Dashboard_Page
                         <!--Contenido principal del documento-->
                         <main>
                         ');
-                    }
                 } else {
                     // Se imprime el código HTML para el encabezado del documento con el menú de opciones.
-                    if ($filename != 'autentication.php' && $filename != 'clave.php') {
+                    if ($filename != 'clave.php') {
                         print('
                         <!--Encabezado del documento-->
                         <header>

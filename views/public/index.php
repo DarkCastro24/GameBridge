@@ -126,6 +126,12 @@ Public_Page::headerTemplate('Menu principal','public');
         </div>
     </div>
 </div><br><br>
+<!-- SECCIONES DE CATEGORÍAS Y PRODUCTOS -->
+<div id="hardware-categories"></div><br><br>
+<div id="perifericos-categories"></div><br><br>
+<div id="accesorios-categories"></div><br><br>
+<div id="top-sold-container"></div><br><br>
+
 <center><A class="centrar tamañoTitulos letranegra" href="hardware.php"> Conoce parte de nuestra gran variedad <b>de productos</b></A></center><br><br>
 <div href="hardware.php" class="slider" >
     <ul class="slides z-depth-3">

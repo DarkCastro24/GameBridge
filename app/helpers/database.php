@@ -18,8 +18,8 @@ class Database
         // Credenciales para establecer la conexión con la base de datos. Se leen de variables de entorno si están disponibles.
         $server = getenv('DB_HOST') ?: 'localhost';
         $database = getenv('DB_NAME') ?: 'Gamebridge';
-        $username = getenv('DB_USER') ?: 'db_user';
-        $password = getenv('DB_PASS') ?: 'db_pass';
+        $username = getenv('DB_USER') ?: 'postgres';
+        $password = getenv('DB_PASS') ?: '2002';
         $port = getenv('DB_PORT') ?: '5432';
 
         // Se crea la conexión mediante la extensión PDO y el controlador para PostgreSQL.

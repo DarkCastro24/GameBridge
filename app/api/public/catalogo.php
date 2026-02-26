@@ -2,13 +2,16 @@
 require_once('../../helpers/database.php');
 require_once('../../helpers/validator.php');
 require_once('../../models/catalogos.php');
+require_once('../../models/categorias_producto.php');
+require_once('../../models/productos.php');
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
     // Se instancian las clases correspondientes.
-    $categoria = new Categorias;
+    $categoria = new Categorias_Producto;
+    $producto = new Productos;
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
-    $result = array('status' => 0, 'message' => null, 'exception' => null);
+    $result = array('status' => 0, 'message' => null, 'exception' => null, 'dataset' => null);
     // Se compara la acción a realizar según la petición del controlador.
     switch ($_GET['action']) {
         // Metodo para cargar todos los productos
@@ -51,7 +54,7 @@ if (isset($_GET['action'])) {
         case 'search':
             $_POST = $categoria->validateForm($_POST);
             if ($_POST['search'] != '') {
-                if ($result['dataset'] = $categoria->searchRows($_POST['txtCategoria'], $_POST['search'], $_POST['search2'], $_POST['txtSeccion'])) {
+                if ($result['dataset'] = $categoria->searchRows($_POST['search'])) {
                     $result['status'] = 1;
                     $rows = count($result['dataset']);
                     if ($rows > 1) {
@@ -102,6 +105,20 @@ if (isset($_GET['action'])) {
                 $result['exception'] = 'Producto incorrecto';
             }
             break;
+
+        // Método para obtener los TOP 4 productos más vendidos
+        case 'getTopSold':
+            if ($result['dataset'] = $producto->getTopSold()) {
+                $result['status'] = 1;
+            } else {
+                if (Database::getException()) {
+                    $result['exception'] = Database::getException();
+                } else {
+                    $result['exception'] = 'No existen productos para mostrar';
+                }
+            }
+            break;
+
         default:
             $result['exception'] = 'Acción no disponible';
     }

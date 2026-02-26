@@ -357,4 +357,23 @@ class Productos extends Validator
         $params = null;
         return Database::getRows($sql, $params);
     }
+
+    // Método para obtener los TOP 4 productos más vendidos
+    public function getTopSold()
+    {
+        $sql = 'SELECT p.idproducto AS id, p.producto, p.precio, p.imagen, 
+                        COALESCE(SUM(d.cantidad), 0) AS cantidadVendida,
+                        m.marca, c.categoria
+                FROM productos p
+                LEFT JOIN detallepedidos d ON d.producto = p.idproducto
+                LEFT JOIN facturas f ON f.idfactura = d.pedido AND f.estado = 2
+                INNER JOIN marcas m ON m.idmarca = p.marca
+                INNER JOIN categorias c ON c.idcategoria = p.categoria
+                WHERE p.estado = 1
+                GROUP BY p.idproducto, p.producto, p.precio, p.imagen, m.marca, c.categoria
+                ORDER BY cantidadVendida DESC, p.producto ASC
+                LIMIT 4';
+        $params = null;
+        return Database::getRows($sql, $params);
+    }
 }

@@ -16,7 +16,7 @@ document.getElementById('session-form').addEventListener('submit', function (eve
             request.json().then(function (response) {
                 // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
                 if (response.status) {
-                    sweetAlert(4, response.message, 'autentication.php');
+                    sweetAlert(1, response.message, 'hardware.php');
                 } else {
                     if (response.exception == 'Debes actualizar tu contraseña por seguridad') {
                         sweetAlert(4, response.exception, 'password.php');

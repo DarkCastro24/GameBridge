@@ -574,7 +574,15 @@ if (isset($_GET['action'])) {
                     if ($usuario->checkState($_POST['alias'])) {
                         // Ejecutamos la funcion para verificar si la clave es correcta
                         if ($usuario->checkPassword($_POST['clave'])) {
-                            if ($usuario->checkDate($usuario->getFecha())) {
+                            // Verificamos si el usuario necesita actualizar su contraseña
+                            if (!$usuario->checkDate($usuario->getFecha())) {
+                                // El usuario debe actualizar su contraseña
+                                $_SESSION['idusuario'] = $usuario->getId();
+                                $_SESSION['tipo'] = $usuario->getTipo();
+                                $_SESSION['correo'] = $usuario->getCorreo();
+                                $result['exception'] = 'Debes actualizar tu contraseña por seguridad';
+                            } else {
+                                // Login exitoso - establecer sesión y redirigir a main.php
                                 $result['status'] = 1;
                                 // Ejecutamos la funcion para registro de inicio de sesion
                                 $usuario->historialUsuario();
@@ -585,14 +593,7 @@ if (isset($_GET['action'])) {
                                 $_SESSION['tipo'] = $usuario->getTipo();
                                 $_SESSION['correo'] = $usuario->getCorreo();
                                 // Mostramos mensaje de exito
-                                $result['message'] = 'Contraseña correcta pero debes autenticar tu usuario';
-                            } else {
-                                if (Database::getException()) {
-                                    $result['exception'] = Database::getException();
-                                } else {
-                                    // Mensaje de usuario inactivo
-                                    $result['exception'] = 'Debes actualizar tu contraseña por seguridad';
-                                }
+                                $result['message'] = 'Usuario autenticado correctamente';
                             }
                         } else {
                             // Creamos una variable de sesion para guardar los intentos del usuario
