@@ -9,6 +9,8 @@ class Validator
     private $passwordError = null;
     private $imageError = null;
     private $imageName = null;
+    private $targetWidth = null;
+    private $targetHeight = null;
 
     /*
     *   Método para obtener el error al validar una imagen.
@@ -74,7 +76,7 @@ class Validator
     *   
     *   Retorno: booleano (true si el archivo es correcto o false en caso contrario).
     */
-    public function validateImageFile($file, $maxWidth, $maxHeigth)
+    public function validateImageFile($file, $targetWidth, $targetHeight)
     {
         // Se verifica si el archivo existe, de lo contrario se establece un número de error.
         if ($file) {
@@ -82,21 +84,18 @@ class Validator
             if ($file['size'] <= 2097152) {
                 // Se obtienen las dimensiones de la imagen y su tipo.
                 list($width, $height, $type) = getimagesize($file['tmp_name']);
-                // Se verifica si la imagen cumple con las dimensiones máximas, de lo contrario se establece un número de error.
-                if ($width <= $maxWidth && $height <= $maxHeigth) {
-                    // Se comprueba si el tipo de imagen es permitido (1 - GIF, 2 - JPG y 3 - PNG), de lo contrario se establece un número de error.
-                    if ($type == 1 || $type == 2 || $type == 3) {
-                        // Se obtiene la extensión del archivo.
-                        $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-                        // Se establece un nombre único para el archivo.
-                        $this->imageName = uniqid() . '.' . $extension;
-                        return true;
-                    } else {
-                        $this->imageError = 'El tipo de la imagen debe ser gif, jpg o png';
-                        return false;
-                    }
+                // Se comprueba si el tipo de imagen es permitido (1 - GIF, 2 - JPG y 3 - PNG), de lo contrario se establece un número de error.
+                if ($type == 1 || $type == 2 || $type == 3) {
+                    // Se obtiene la extensión del archivo.
+                    $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+                    // Se establece un nombre único para el archivo.
+                    $this->imageName = uniqid() . '.' . $extension;
+                    // Se guardan las dimensiones objetivo para redimensionar al guardar.
+                    $this->targetWidth = $targetWidth;
+                    $this->targetHeight = $targetHeight;
+                    return true;
                 } else {
-                    $this->imageError = 'La dimensión de la imagen es incorrecta';
+                    $this->imageError = 'El tipo de la imagen debe ser gif, jpg o png';
                     return false;
                 }
             } else {
@@ -310,6 +309,10 @@ class Validator
             if (file_exists($path)) {
                 // Se verifica que el archivo sea movido al servidor.
                 if (move_uploaded_file($file['tmp_name'], $path . $name)) {
+                    // Redimensionar la imagen si se especificaron dimensiones objetivo.
+                    if ($this->targetWidth && $this->targetHeight) {
+                        $this->resizeImage($path . $name, $this->targetWidth, $this->targetHeight);
+                    }
                     return true;
                 } else {
                     return false;
@@ -320,6 +323,77 @@ class Validator
         } else {
             return false;
         }
+    }
+
+    /*
+    *   Método para redimensionar una imagen a las dimensiones especificadas.
+    *
+    *   Parámetros: $filePath (ruta completa del archivo), $targetWidth (ancho objetivo) y $targetHeight (alto objetivo).
+    *   
+    *   Retorno: booleano (true si la imagen fue redimensionada o false en caso contrario).
+    */
+    private function resizeImage($filePath, $targetWidth, $targetHeight)
+    {
+        // Se verifica que la extensión GD esté disponible.
+        if (!extension_loaded('gd')) {
+            return false;
+        }
+
+        // Se obtienen las dimensiones y el tipo de la imagen.
+        list($width, $height, $type) = getimagesize($filePath);
+
+        // Si la imagen ya tiene las dimensiones objetivo, no es necesario redimensionar.
+        if ($width == $targetWidth && $height == $targetHeight) {
+            return true;
+        }
+
+        // Se crea la imagen de origen según el tipo.
+        switch ($type) {
+            case 1: // GIF
+                $source = imagecreatefromgif($filePath);
+                break;
+            case 2: // JPG
+                $source = imagecreatefromjpeg($filePath);
+                break;
+            case 3: // PNG
+                $source = imagecreatefrompng($filePath);
+                break;
+            default:
+                return false;
+        }
+
+        // Se crea la imagen redimensionada con las dimensiones objetivo.
+        $resized = imagecreatetruecolor($targetWidth, $targetHeight);
+
+        // Se preserva la transparencia para imágenes PNG y GIF.
+        if ($type == 1 || $type == 3) {
+            imagealphablending($resized, false);
+            imagesavealpha($resized, true);
+            $transparent = imagecolorallocatealpha($resized, 0, 0, 0, 127);
+            imagefilledrectangle($resized, 0, 0, $targetWidth, $targetHeight, $transparent);
+        }
+
+        // Se redimensiona la imagen manteniendo la mejor calidad posible.
+        imagecopyresampled($resized, $source, 0, 0, 0, 0, $targetWidth, $targetHeight, $width, $height);
+
+        // Se guarda la imagen redimensionada según su tipo.
+        switch ($type) {
+            case 1:
+                imagegif($resized, $filePath);
+                break;
+            case 2:
+                imagejpeg($resized, $filePath, 90);
+                break;
+            case 3:
+                imagepng($resized, $filePath);
+                break;
+        }
+
+        // Se liberan los recursos de memoria.
+        imagedestroy($source);
+        imagedestroy($resized);
+
+        return true;
     }
 
     /*

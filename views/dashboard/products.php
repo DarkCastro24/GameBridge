@@ -104,7 +104,7 @@ Dashboard_Page::headerTemplate('Administrar productos');
                     <label>Estado</label>
                 </div>
                 <div class="file-field input-field col s12 m6">
-                    <div class="btn waves-effect tooltipped" data-tooltip="Seleccione una imagen de al menos 500x500">
+                    <div class="btn waves-effect tooltipped" data-tooltip="Seleccione una imagen (se redimensionará a 500x500)">
                         <span><i class="material-icons">image</i></span>
                         <input id="archivo_producto" type="file" name="archivo_producto" accept=".gif, .jpg, .png" />
                     </div>

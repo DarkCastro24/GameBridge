@@ -76,7 +76,7 @@ if (isset($_GET['action'])) {
                                         $result['exception'] = Database::getException();
                                     }
                                 } else {
-                                    $result['exception'] = 'La imagen debe ser de al menos 500x500 píxeles';
+                                    $result['exception'] = $categorias->getImageError();
                                 }
                             } else {
                                 $result['exception'] = 'Error al subir la imagen';
@@ -142,7 +142,7 @@ if (isset($_GET['action'])) {
                                                 $result['exception'] = Database::getException();
                                             }
                                         } else {
-                                            $result['exception'] = 'La imagen debe ser de al menos 500x500 píxeles';
+                                            $result['exception'] = $categorias->getImageError();
                                         }
                                     } else {
                                         // Sin imagen nueva, solo actualizar datos
