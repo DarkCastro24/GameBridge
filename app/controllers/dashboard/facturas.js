@@ -93,7 +93,7 @@ function openUpdateDialog(id) {
     let instance = M.Modal.getInstance(document.getElementById('save-modal'));
     instance.open();
     // Se asigna el título para la caja de dialogo (modal).
-    document.getElementById('modal-title').textContent = 'Actualizar datos de la factura';
+    document.getElementById('modal-title').textContent = 'Modificar datos de la factura';
     // Se deshabilitan los campos de alias y contraseña.
 
     // Se define un objeto con los datos del registro seleccionado.

@@ -21,7 +21,7 @@ function openCreateDialog() {
     let instance = M.Modal.getInstance(document.getElementById('save-modal'));
     instance.open();
     // Se asigna el título para la caja de dialogo (modal).
-    document.getElementById('modal-title').textContent = 'Ingresar valoracion';
+    document.getElementById('modal-title').textContent = 'Agregar valoración';
     // Se habilitan los campos 
     document.getElementById('cmbDetalle').disabled = false;
     fillSelect(ENDPOINT_CATEGORIAS, 'cmbDetalle', null);
@@ -35,7 +35,7 @@ function openUpdateDialog(id) {
     let instance = M.Modal.getInstance(document.getElementById('save-modal'));
     instance.open();
     // Se asigna el título para la caja de dialogo (modal).
-    document.getElementById('modal-title').textContent = 'Actualizar cliente';
+    document.getElementById('modal-title').textContent = 'Modificar valoración';
     // Se deshabilitan los campos.
     document.getElementById('cmbDetalle').disabled = true;
     // Se define un objeto con los datos del registro seleccionado.

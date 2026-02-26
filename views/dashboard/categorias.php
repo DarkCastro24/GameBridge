@@ -57,7 +57,7 @@ Dashboard_Page::headerTemplate('Administrar categorías');
     <!-- Componente Modal para mostrar una caja de dialogo -->
     <div id="save-modal" class="modal">
         <div class="modal-content">
-            <h4 id="modal-title" class="center-align"></h4>
+            <h4 id="modal-title" class="center-align">Gestionar Categoría</h4>
             <form method="post" id="save-form">
                 <input class="hide" type="number" id="txtId" name="txtId" />
 

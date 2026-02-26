@@ -52,7 +52,7 @@ Dashboard_Page::headerTemplate('Administrar facturas');
 <div id="save-modal" class="modal">
   <!-- Componente modal para modificar y agregar -->
   <div class="modal-content">
-    <h4 id="modal-title" class="center-align"></h4>
+    <h4 id="modal-title" class="center-align">Gestionar Factura</h4>
     <form method="post" id="save-form">
       <input class="hide" type="number" id="txtId" name="txtId" />
       <div class="row">

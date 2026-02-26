@@ -720,3 +720,4 @@ SELECT idcategoria AS id, categoria, descripcion, imagen
                 FROM categorias
                 ORDER BY categoria
 
+DROP INDEX IF EXISTS public.uq_clientes_dui;

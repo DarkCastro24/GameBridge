@@ -65,6 +65,7 @@ class Dashboard_Page
                                 <nav class="nav">
                                     <div class="nav-wrapper">
                                         <a href="main.php" class="brand-logo"><img src="../../resources/img/brand/Logo.png" width="80" height="60.3"></a>
+                                        <span class="white-text hide-on-med-and-down" style="margin-left: 84px; line-height: 64px; font-weight: bold; font-size: 18px;">Gamebridge Dashboard</span>
                                         <a href="#" data-target="mobile-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                                         <ul class="right hide-on-med-and-down">
                                             <li><a href="usuarios.php"><i class="material-icons right">account_circle</i>Usuarios</a></li>
@@ -117,6 +118,7 @@ class Dashboard_Page
                                 <nav class="nav">
                                     <div class="nav-wrapper">
                                         <a href="main.php" class="brand-logo"><img src="../../resources/img/brand/Logo.png" width="80" height="60.3"></a>
+                                        <span class="white-text hide-on-med-and-down" style="margin-left: 84px; line-height: 64px; font-weight: bold; font-size: 18px;">Gamebridge Dashboard</span>
                                         <a href="#" data-target="mobile-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                                         <ul class="right hide-on-med-and-down">
                                             <li><a href="products.php"><i class="material-icons right">shopping_cart</i>Productos</a></li>

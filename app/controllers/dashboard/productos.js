@@ -52,7 +52,7 @@ function openCreateDialog() {
     // Abrimos el modal
     instance.open();
     // Colocamos el titulo al modal 
-    document.getElementById('modal-title').textContent = 'Registrar producto';
+    document.getElementById('modal-title').textContent = 'Agregar producto';
     document.getElementById('archivo_producto').required = true;
     // Cargamos los combobox 
     fillSelect(ENDPOINT_ESTADO, 'cmbEstado', null);
@@ -67,7 +67,7 @@ function openUpdateDialog(id) {
     let instance = M.Modal.getInstance(document.getElementById('save-modal'));
     instance.open();
     // Colocamos titulo al modal
-    document.getElementById('modal-title').textContent = 'Actualizar producto';
+    document.getElementById('modal-title').textContent = 'Modificar producto';
     document.getElementById('archivo_producto').required = false;
     // Creamos un form data para enviar el id 
     const data = new FormData();

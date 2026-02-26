@@ -47,7 +47,7 @@ function openCreateDialog() {
     let instance = M.Modal.getInstance(document.getElementById('save-modal'));
     instance.open();
     // Se asigna el título para la caja de dialogo (modal).
-    document.getElementById('modal-title').textContent = 'Crear Categoría';
+    document.getElementById('modal-title').textContent = 'Agregar categoría';
     // Se habilitan los campos de alias y contraseña.
 
     fillSelect(ENDPOINT_SECCIONES, 'cmbTipo', null);
@@ -63,7 +63,7 @@ function openUpdateDialog(id) {
     let instance = M.Modal.getInstance(document.getElementById('save-modal'));
     instance.open();
     // Se asigna el título para la caja de dialogo (modal).
-    document.getElementById('modal-title').textContent = 'Actualizar categoría';
+    document.getElementById('modal-title').textContent = 'Modificar categoría';
     // Se deshabilitan los campos de alias y contraseña.
 
 

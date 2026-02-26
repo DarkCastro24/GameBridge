@@ -42,7 +42,7 @@ function openCreateDialog() {
     document.getElementById('save-form').reset();
     let instance = M.Modal.getInstance(document.getElementById('save-modal'));
     instance.open();
-    document.getElementById('modal-title').textContent = 'Registrar cliente';    
+    document.getElementById('modal-title').textContent = 'Agregar cliente';    
     fillSelect(ENDPOINT_CATEGORIAS, 'cmbEstado', null);
 }
 
@@ -65,7 +65,7 @@ function openUpdateDialog(id) {
     let instance = M.Modal.getInstance(document.getElementById('save-modal'));
     instance.open();
     // Colocamos el titulo al modal
-    document.getElementById('modal-title').textContent = 'Actualizar cliente';
+    document.getElementById('modal-title').textContent = 'Modificar cliente';
     const data = new FormData();
     data.append('id', id);
     // Realizamos una peticion a la API indicando el caso a utilizar y enviando la direccion de la API como parametro

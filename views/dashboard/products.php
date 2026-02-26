@@ -70,7 +70,7 @@ Dashboard_Page::headerTemplate('Administrar productos');
 <div id="save-modal" class="modal">
     <div class="modal-content">
         <!-- Título para la caja de dialogo -->
-        <h4 id="modal-title" class="center-align"></h4>
+        <h4 id="modal-title" class="center-align">Gestionar Producto</h4>
         <!-- Formulario para crear o actualizar un registro -->
         <form method="post" id="save-form" enctype="multipart/form-data">
             <!-- Campo oculto para asignar el id del registro al momento de modificar -->
