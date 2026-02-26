@@ -48,7 +48,8 @@ function openCreateDialog() {
     instance.open();
     // Se asigna el título para la caja de dialogo (modal).
     document.getElementById('modal-title').textContent = 'Agregar categoría';
-    // Se habilitan los campos de alias y contraseña.
+    // Se requiere el archivo de imagen para crear una nueva categoría.
+    document.getElementById('archivo_categoria').required = true;
 
     fillSelect(ENDPOINT_SECCIONES, 'cmbTipo', null);
 
@@ -64,7 +65,8 @@ function openUpdateDialog(id) {
     instance.open();
     // Se asigna el título para la caja de dialogo (modal).
     document.getElementById('modal-title').textContent = 'Modificar categoría';
-    // Se deshabilitan los campos de alias y contraseña.
+    // Se deshabilita el requerimiento del archivo de imagen para actualizar.
+    document.getElementById('archivo_categoria').required = false;
 
 
 

@@ -8,6 +8,8 @@ class Categorias_Producto extends Validator
     private $categoria = null;
     private $seccion = null;
     private $descripcion = null;
+    private $imagen = null;
+    private $ruta = '../../../resources/img/categorias/';
 
     public function setIdcategoria($value)
     {
@@ -45,6 +47,17 @@ class Categorias_Producto extends Validator
         return false;
     }
 
+    public function setImagen($file)
+    {
+        // Validamos el tipo de dato del valor ingresado
+        if ($this->validateImageFile($file, 500, 500)) {
+            $this->imagen = $this->getImageName();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function getIdCategoria()
     {
         return $this->idcategoria;
@@ -63,6 +76,16 @@ class Categorias_Producto extends Validator
     public function getDescripcion()
     {
         return $this->descripcion;
+    }
+
+    public function getImagen()
+    {
+        return $this->imagen;
+    }
+
+    public function getRuta()
+    {
+        return $this->ruta;
     }
 
     // Cargar todas las categorias con su seccion
@@ -90,16 +113,16 @@ class Categorias_Producto extends Validator
     // Crear categoria
     public function createRow()
     {
-        $sql = 'INSERT INTO categorias(categoria, seccion, descripcion)
-            VALUES(?, ?, ?)';
-        $params = array($this->categoria, $this->seccion, $this->descripcion);
+        $sql = 'INSERT INTO categorias(categoria, seccion, descripcion, imagen)
+            VALUES(?, ?, ?, ?)';
+        $params = array($this->categoria, $this->seccion, $this->descripcion, $this->imagen);
         return Database::executeRow($sql, $params);
     }
 
     // Cargar una categoria
     public function readOne()
     {
-        $sql = 'SELECT idcategoria, categoria, seccion
+        $sql = 'SELECT idcategoria, categoria, seccion, descripcion, imagen
                 FROM categorias
                 WHERE idcategoria = ?';
         $params = array($this->idcategoria);
@@ -107,12 +130,24 @@ class Categorias_Producto extends Validator
     }
 
     // Actualizar categoria
-    public function updateRow()
+    public function updateRow($current_image = null)
     {
+        // Verificamos si existe una imagen nueva en la base de datos
+        if ($this->imagen) {
+            // Si hay imagen antigua, la eliminamos
+            if ($current_image) {
+                $this->deleteFile($this->getRuta(), $current_image);
+            }
+        } else {
+            // Si no hay imagen nueva, mantenemos la actual
+            $this->imagen = $current_image;
+        }
+        // Sentencia SQL
         $sql = 'UPDATE categorias
-            SET categoria = ?, seccion = ?, descripcion = ?
+            SET categoria = ?, seccion = ?, descripcion = ?, imagen = ?
             WHERE idcategoria = ?';
-        $params = array($this->categoria, $this->seccion, $this->descripcion, $this->idcategoria);
+        // Envio de parametros
+        $params = array($this->categoria, $this->seccion, $this->descripcion, $this->imagen, $this->idcategoria);
         return Database::executeRow($sql, $params);
     }
 

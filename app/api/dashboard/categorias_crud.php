@@ -61,15 +61,25 @@ if (isset($_GET['action'])) {
 
                 if ($categorias->setCategoria($_POST['txtusuario'])) {
                     if ($categorias->setSeccion($_POST['cmbTipo'])) {
-
-                        // NUEVO: descripción (requiere setter en el modelo)
                         if ($categorias->setDescripcion($_POST['txtDescripcion'])) {
-
-                            if ($categorias->createRow()) {
-                                $result['status'] = 1;
-                                $result['message'] = 'Categoría registrada correctamente';
+                            if (is_uploaded_file($_FILES['archivo_categoria']['tmp_name'])) {
+                                if ($categorias->setImagen($_FILES['archivo_categoria'])) {
+                                    if ($categorias->createRow()) {
+                                        $result['status'] = 1;
+                                        // Guardamos la imagen dentro de la carpeta del proyecto
+                                        if ($categorias->saveFile($_FILES['archivo_categoria'], $categorias->getRuta(), $categorias->getImagen())) {
+                                            $result['message'] = 'Categoría registrada correctamente';
+                                        } else {
+                                            $result['message'] = 'Categoría registrada pero no se guardó la imagen';
+                                        }
+                                    } else {
+                                        $result['exception'] = Database::getException();
+                                    }
+                                } else {
+                                    $result['exception'] = 'La imagen debe ser de al menos 500x500 píxeles';
+                                }
                             } else {
-                                $result['exception'] = Database::getException();
+                                $result['exception'] = 'Error al subir la imagen';
                             }
                         } else {
                             $result['exception'] = 'Descripción incorrecta';
@@ -113,26 +123,47 @@ if (isset($_GET['action'])) {
                 }
 
                 if ($categorias->setIdcategoria($_POST['txtId'])) {
-                    if ($categorias->setCategoria($_POST['txtusuario'])) {
-                        if ($categorias->setSeccion($_POST['cmbTipo'])) {
-
-                            // NUEVO: descripción
-                            if ($categorias->setDescripcion($_POST['txtDescripcion'])) {
-
-                                if ($categorias->updateRow()) {
-                                    $result['status'] = 1;
-                                    $result['message'] = 'Categoría modificada correctamente';
+                    if ($data = $categorias->readOne()) {
+                        if ($categorias->setCategoria($_POST['txtusuario'])) {
+                            if ($categorias->setSeccion($_POST['cmbTipo'])) {
+                                if ($categorias->setDescripcion($_POST['txtDescripcion'])) {
+                                    // Verificar si hay archivo de imagen
+                                    if (is_uploaded_file($_FILES['archivo_categoria']['tmp_name'])) {
+                                        if ($categorias->setImagen($_FILES['archivo_categoria'])) {
+                                            if ($categorias->updateRow($data['imagen'])) {
+                                                $result['status'] = 1;
+                                                // Guardamos la imagen dentro de la carpeta del proyecto
+                                                if ($categorias->saveFile($_FILES['archivo_categoria'], $categorias->getRuta(), $categorias->getImagen())) {
+                                                    $result['message'] = 'Categoría modificada correctamente';
+                                                } else {
+                                                    $result['message'] = 'Categoría modificada pero no se guardó la imagen';
+                                                }
+                                            } else {
+                                                $result['exception'] = Database::getException();
+                                            }
+                                        } else {
+                                            $result['exception'] = 'La imagen debe ser de al menos 500x500 píxeles';
+                                        }
+                                    } else {
+                                        // Sin imagen nueva, solo actualizar datos
+                                        if ($categorias->updateRow($data['imagen'])) {
+                                            $result['status'] = 1;
+                                            $result['message'] = 'Categoría modificada correctamente';
+                                        } else {
+                                            $result['exception'] = Database::getException();
+                                        }
+                                    }
                                 } else {
-                                    $result['exception'] = Database::getException();
+                                    $result['exception'] = 'Descripción incorrecta';
                                 }
                             } else {
-                                $result['exception'] = 'Descripción incorrecta';
+                                $result['exception'] = 'Sección incorrecta';
                             }
                         } else {
-                            $result['exception'] = 'Sección incorrecta';
+                            $result['exception'] = 'Categoría incorrecta';
                         }
                     } else {
-                        $result['exception'] = 'Categoría incorrecta';
+                        $result['exception'] = 'Categoría inexistente';
                     }
                 } else {
                     $result['exception'] = 'Id de categoría incorrecto';

@@ -58,7 +58,7 @@ Dashboard_Page::headerTemplate('Administrar categorías');
     <div id="save-modal" class="modal">
         <div class="modal-content">
             <h4 id="modal-title" class="center-align">Gestionar Categoría</h4>
-            <form method="post" id="save-form">
+            <form method="post" id="save-form" enctype="multipart/form-data">
                 <input class="hide" type="number" id="txtId" name="txtId" />
 
                 <div class="row">
@@ -77,6 +77,16 @@ Dashboard_Page::headerTemplate('Administrar categorías');
                             class="materialize-textarea validate" required maxlength="150"
                             placeholder="Ejemplo: Consolas, tarjetas gráficas y componentes para PC"></textarea>
                         <label for="txtDescripcion">Descripción</label>
+                    </div>
+
+                    <div class="file-field input-field col s12 m12">
+                        <div class="btn waves-effect tooltipped" data-tooltip="Seleccione una imagen de al menos 500x500">
+                            <span><i class="material-icons">image</i></span>
+                            <input id="archivo_categoria" type="file" name="archivo_categoria" accept=".gif, .jpg, .png" />
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input type="text" class="file-path validate" placeholder="Formatos aceptados: gif, jpg y png" />
+                        </div>
                     </div>
                 </div>
 
