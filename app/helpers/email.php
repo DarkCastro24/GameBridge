@@ -1,5 +1,13 @@
 <?php
 require_once __DIR__ . '/env.php';
+// Incluir las clases de PHPMailer
+require_once __DIR__ . '/../../libraries/PHPMailer-6.7.1/src/Exception.php';
+require_once __DIR__ . '/../../libraries/PHPMailer-6.7.1/src/PHPMailer.php';
+require_once __DIR__ . '/../../libraries/PHPMailer-6.7.1/src/SMTP.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
 $email = "";
 $name = "";
@@ -79,59 +87,72 @@ class Correo extends Validator
         return $this->codigo;
     }
 
-    // Funcion para enviar el correo electronico al destino seleccionado
+    // Funcion para enviar el correo electronico al destino seleccionado utilizando PHPMailer
     public function enviarCorreo()
     {
         try {
-            // Detectar entorno local (XAMPP)
-            $isLocal = (
-                isset($_SERVER['SERVER_NAME']) &&
-                in_array($_SERVER['SERVER_NAME'], ['localhost', '127.0.0.1'])
-            );
-
-            // Cabeceras (mejoradas) usando variables de entorno si están disponibles
+            // Obtener credenciales SMTP desde variables de entorno
+            $smtpHost = getenv('MAIL_HOST') ?: 'smtp.gmail.com';
+            $smtpPort = getenv('MAIL_PORT') ?: 587;
+            $smtpUser = getenv('MAIL_USERNAME') ?: '';
+            $smtpPass = getenv('MAIL_PASSWORD') ?: '';
+            $smtpEncryption = getenv('MAIL_ENCRYPTION') ?: 'tls';
+            $fromAddress = getenv('MAIL_FROM_ADDRESS') ?: $smtpUser;
             $fromName = getenv('MAIL_FROM_NAME') ?: 'GameBridge';
-            $fromAddress = getenv('MAIL_FROM_ADDRESS') ?: 'botcastroll24@gmail.com';
-            $headers  = "From: {$fromName} <{$fromAddress}>\r\n";
-            $headers .= "Reply-To: {$fromAddress}\r\n";
-            $headers .= "MIME-Version: 1.0\r\n";
-            $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
-            if ($isLocal) {
-                // En local, no enviar: guardar en un log para depuración
-                $logDir = __DIR__ . '/../../logs';
-                if (!is_dir($logDir)) {
-                    @mkdir($logDir, 0777, true);
-                }
+            // Crear una nueva instancia de PHPMailer
+            $mail = new PHPMailer(true);
 
-                $logFile = $logDir . '/emails.log';
-                $content =
-                    "----- " . date('Y-m-d H:i:s') . " -----\n" .
-                    "TO: " . $this->correo . "\n" .
-                    "SUBJECT: " . $this->asunto . "\n" .
-                    "MESSAGE:\n" . $this->mensaje . "\n\n";
+            // Configuración del servidor SMTP
+            $mail->isSMTP();
+            $mail->Host       = $smtpHost;
+            $mail->SMTPAuth   = true;
+            $mail->Username   = $smtpUser;
+            $mail->Password   = $smtpPass;
+            $mail->SMTPSecure = ($smtpEncryption === 'ssl') ? PHPMailer::ENCRYPTION_SMTPS : PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port       = (int) $smtpPort;
+            $mail->CharSet    = 'UTF-8';
 
-                file_put_contents($logFile, $content, FILE_APPEND);
+            // Remitente y destinatario
+            $mail->setFrom($fromAddress, $fromName);
+            $mail->addAddress($this->correo);
 
-                // Opcional: para mostrarlo en pantalla o en alertas
-                $_SESSION['last_email_debug'] = [
-                    'to' => $this->correo,
-                    'subject' => $this->asunto,
-                    'message' => $this->mensaje
-                ];
+            // Contenido del correo
+            $mail->isHTML(false);
+            $mail->Subject = $this->asunto;
+            $mail->Body    = $this->mensaje;
 
-                return true;
+            // Enviar el correo
+            $mail->send();
+
+            // Log opcional para depuración
+            $logDir = __DIR__ . '/../../logs';
+            if (!is_dir($logDir)) {
+                @mkdir($logDir, 0777, true);
             }
+            $logFile = $logDir . '/emails.log';
+            $content =
+                "----- " . date('Y-m-d H:i:s') . " -----\n" .
+                "TO: " . $this->correo . "\n" .
+                "SUBJECT: " . $this->asunto . "\n" .
+                "STATUS: Enviado correctamente\n\n";
+            file_put_contents($logFile, $content, FILE_APPEND);
 
-            // En producción (o servidor con SMTP configurado)
-            if (mail($this->correo, $this->asunto, $this->mensaje, $headers)) {
-                return true;
-            } else {
-                $_SESSION['error'] = "Error al enviar el correo electrónico";
-                return false;
-            }
-        } catch (Throwable $e) {
+            return true;
+        } catch (Exception $e) {
             $_SESSION['error'] = "Error al enviar el correo electrónico: " . $e->getMessage();
+            // Log del error
+            $logDir = __DIR__ . '/../../logs';
+            if (!is_dir($logDir)) {
+                @mkdir($logDir, 0777, true);
+            }
+            $logFile = $logDir . '/emails.log';
+            $content =
+                "----- " . date('Y-m-d H:i:s') . " -----\n" .
+                "TO: " . $this->correo . "\n" .
+                "SUBJECT: " . $this->asunto . "\n" .
+                "STATUS: Error - " . $e->getMessage() . "\n\n";
+            file_put_contents($logFile, $content, FILE_APPEND);
             return false;
         }
     }
